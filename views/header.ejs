@@ -11,7 +11,7 @@
     <header>
       <% if(!user) { %>
       <button>
-        <a class="navbar-brand" href="/mainPage">CREATING QUIZ PAGE</a>
+        <a class="navbar-brand" href="/mainPage">MAIN QUIZ PAGE</a>
       </button>
       <button>
         <a class="navbar-brand" href="/register">REGISTRATION PAGE</a>
@@ -19,8 +19,10 @@
       <button><a class="navbar-brand" href="/login">LOG IN PAGE</a></button>
       <%  } else { %>
       <button>
-        <a class="navbar-brand" href="/mainPage">CREATING QUIZ PAGE</a>
+        <a class="navbar-brand" href="/creatingQuiz">CREATING QUIZ PAGE</a>
       </button>
+      <button><a class="navbar-brand" href="/creatingQuiz">EDIT QUIZ</a></button>
+      <button><a class="navbar-brand" href="/quizCreatedSuccesfully">SHOW QUIZ</a></button>
       <span>Welcome : <%= user.firstName %></span>
       <span>Asscociated Email : <%= user.email %></span>
       <form method="POST" action="/logout">

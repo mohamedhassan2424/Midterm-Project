@@ -131,7 +131,7 @@ app.get("/creatingQuiz", (req,res)=>{
   const existsingUser=usersDatabase[currentSession]
   const templateVars ={user: existsingUser}
 
-  res.render("creatingQuizPage",templateVars)
+  res.render("creating-quiz-page",templateVars)
 })
 app.post("/creatingQuiz", (req,res)=>{
   const currentSession = req.session.userId
@@ -154,7 +154,8 @@ app.post("/creatingQuiz", (req,res)=>{
 /*app.get("/quizCreatedSuccesfully", (req,res)=>{
   const currentSession = req.session.userId
   const existsingUser=usersDatabase[currentSession]
-  //const templateVars ={user: existsingUser,questionObject:questionText[generatedId]}
+  const generateValue =questionT
+  const templateVars ={user: existsingUser,questionObject:questionText[generatedId]}
   res.render("quizCreatedSuccesfully",templateVars)
 })*/
 app.post("/register", (req,res)=>{

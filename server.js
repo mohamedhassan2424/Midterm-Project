@@ -58,6 +58,8 @@ const usersDatabase = {
     id: "userID",
     email: "email@example.com",
     password: "user-typed-password",
+    firstName: "First Name",
+    lastName:"Last Name"
   }
 };
 app.get('/', (req, res) => {
@@ -111,12 +113,29 @@ app.get("/register", (req,res)=>{
 
 app.post("/register", (req,res)=>{
   const generatedId = Math.random().toString(36).substring(2, 8);
-  const { email, password } = req.body;
+  const { email, password,firstName,lastName } = req.body;
   const newhashedPassword = bcrypt.hashSync(password, 10)
+  if (email.length === 0) {
+    return res.send("400 Status Code : Please type in an accepatable Email with substantial chracter length to continue with registering.");
+  }
+  if (password.length === 0) {
+    return res.send("400 Status Code : Please type in an accepatable password with substantial chracter length  continue with registering");
+  }
+  if (firstName.length === 0) {
+    return res.send("400 Status Code : Please type in an accepatable value for FIRST Name button with substantial chracter length  continue with registering");
+  }
+  if (lastName.length === 0) {
+    return res.send("400 Status Code : Please type in an accepatable value for LAST Name button with substantial chracter length continue with registering");
+  }
+  if (getUserByEmail(email, usersDatabase)) {
+    return res.send("Staus Code 400. Email type in already exist in the Database. Please type in a Different database");
+  }
   usersDatabase[generatedId]= {
     id:generatedId,
     email:email,
-    password:newhashedPassword
+    password:newhashedPassword,
+    firstName:firstName,
+    lastName:lastName
   }
   req.session.userId=generatedId;
   console.log(usersDatabase)

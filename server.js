@@ -154,7 +154,7 @@ app.post("/creatingQuiz", (req,res)=>{
 app.get("/quizCreatedSuccesfully", (req,res)=>{
   const currentSession = req.session.userId
   const existsingUser=usersDatabase[currentSession]
-  const templateVars ={user: existsingUser}
+  const templateVars ={user: existsingUser,questionObject:questionText}
   res.render("quizCreatedSuccesfully",templateVars)
 })
 app.post("/register", (req,res)=>{

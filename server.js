@@ -67,7 +67,10 @@ app.get('/', (req, res) => {
 });
 
 app.get("/mainPage", (req,res)=>{
-  res.render("mainPage")
+  const currentSession = req.session.userId
+  const existsingUser=usersDatabase[currentSession]
+  const userData ={users :existsingUser}
+  res.render("mainPage",userData)
 })
 app.get("/login", (req,res)=>{
   const currentSession = req.session.userId

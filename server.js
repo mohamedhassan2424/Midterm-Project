@@ -5,7 +5,8 @@ require('dotenv').config();
 const sassMiddleware = require('./lib/sass-middleware');
 const express = require('express');
 const morgan = require('morgan');
-
+const cookieSession = require('cookie-session')
+const bcrypt = require("bcryptjs");
 const PORT = process.env.PORT || 8080;
 const app = express();
 
@@ -31,6 +32,7 @@ app.use(express.static('public'));
 const userApiRoutes = require('./routes/users-api');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
+const { password } = require('pg/lib/defaults');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -44,6 +46,19 @@ app.use('/users', usersRoutes);
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
+app.use(
+  cookieSession({
+    name: "cookieName",
+    keys: ["secretKey1", "secretKey2"],
+  })
+);
+const usersDatabase = {
+  userID: {
+    id: "userID",
+    email: "email@example.com",
+    password: "user-typed-password",
+  }
+};
 app.get('/', (req, res) => {
   res.render('index');
 });
@@ -51,10 +66,25 @@ app.get('/', (req, res) => {
 app.get("/login", (req,res)=>{
   res.render("loginPage")
 })
-app.post("/login", (req, res)=>{
-  
+
+app.get("/register", (req,res)=>{
+  res.render("registrationPage")
 })
 
+app.post("/register", (req,res)=>{
+  const generatedId = Math.random().toString(36).substring(2, 8);
+  const { email, password } = req.body;
+
+  usersDatabase.id= {
+    id:generatedId,
+    email:email,
+    password:password
+  }
+  console.log(usersDatabase)
+  console.log(email)
+  console.log(password)
+  res.send("THANK YOU FOR LOGING")
+})
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });

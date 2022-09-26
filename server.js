@@ -95,7 +95,7 @@ app.post("/login", (req,res)=>{
 })
 
 app.post("/logout", (req,res)=>{
-  req.session.userID = null
+  req.session.userId = null
   res.render("logoutPage")
 })
 app.get("/register", (req,res)=>{

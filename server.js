@@ -62,6 +62,16 @@ const usersDatabase = {
     lastName:"Last Name"
   }
 };
+const questionText = {
+  userID: {
+    id:"UserId",
+    firstQuestion:"Question Text",
+    answerOne:"Possible answer one",
+    answerTwo:"Possible answer one",
+    answerThree:"Possible answer one",
+    answerFour:"Possible answer one"
+  }
+}
 app.get('/', (req, res) => {
   res.render('index');
 });
@@ -122,6 +132,24 @@ app.get("/creatingQuiz", (req,res)=>{
   const templateVars ={user: existsingUser}
 
   res.render("creatingQuizPage",templateVars)
+})
+app.post("/creatingQuiz", (req,res)=>{
+  const currentSession = req.session.userId
+  const existsingUser=usersDatabase[currentSession]
+  const {question,firstAnswer,secondAnswer,thirdAnswer,fourthAnswer} = req.body
+  console.log("QUESITONNNN",question)
+  const generatedId = Math.random().toString(36).substring(2, 8);
+  questionText[generatedId]= {
+    id:generatedId,
+    firstQuestion:question,
+    answerOne:firstAnswer,
+    answerTwo:secondAnswer,
+    answerThree:thirdAnswer,
+    answerFour:fourthAnswer
+  }
+  console.log("QuestionText",questionText)
+  const templateVars ={user: existsingUser,questionObject:questionText}
+  res.render("quizCreatedSuccesfully",templateVars)
 })
 app.get("/quizCreatedSuccesfully", (req,res)=>{
   const currentSession = req.session.userId

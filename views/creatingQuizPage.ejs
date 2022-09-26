@@ -3,14 +3,17 @@
 <body>
     <h2>CREATING QUIZ PAGE</h2>
     <label>Write Question here??????</label>
-   <div> <textarea placeholder="Write Question"></textarea></div>
+    <form method="POST" action="/creatingQuiz">
+   <div> <textarea placeholder="Write Question" name="question"></textarea></div>
    <label>Write Answers</label>
     <ol>
-    <li><textarea placeholder="Possible Answer" value="firstAnswer"></textarea></li>
-    <li><textarea placeholder="Possible Answer"></textarea></li>
-    <li><textarea placeholder="Possible Answer"></textarea></li>
-    <li><textarea placeholder="Possible Answer"></textarea></li>
+    <li><textarea placeholder="Possible Answer" name="firstAnswer"></textarea></li>
+    <li><textarea placeholder="Possible Answer" name="secondAnswer"></textarea></li>
+    <li><textarea placeholder="Possible Answer" name="thirdAnswer"></textarea></li>
+    <li><textarea placeholder="Possible Answer" name="fourthAnswer"></textarea></li>
     </ol>
-    <div><button><a href="/quizCreatedSuccesfully">Create Quiz</a></button></div>
+
+    <div><input type="submit" value="Create Quiz" ></input></div>
+</form>
 </body>
 </html>

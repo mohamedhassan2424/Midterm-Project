@@ -93,8 +93,11 @@ app.post("/login", (req,res)=>{
   }
   //res.render("loginPage")
 })
+
+app.get()
 app.get("/register", (req,res)=>{
   const currentSession = req.session.userId
+  console.log("Current Session", req.session.userId)
   const existsingUser=usersDatabase[currentSession]
   console.log("existsingUser",existsingUser)
   if(existsingUser){
@@ -107,13 +110,14 @@ app.post("/register", (req,res)=>{
   const generatedId = Math.random().toString(36).substring(2, 8);
   const { email, password } = req.body;
   const newhashedPassword = bcrypt.hashSync(password, 10)
-  usersDatabase.id= {
+  usersDatabase[generatedId]= {
     id:generatedId,
     email:email,
     password:newhashedPassword
   }
   req.session.userId=generatedId;
   console.log(usersDatabase)
+  console.log("REQ-session-Id",req.session.userId)
   //console.log(email)
   //console.log(password)
   //console.log(newhashedPassword)

@@ -2,14 +2,14 @@
 <body>
     <h2>QUIZ CREATED SUCCESFULLY</h2>
     <ol>
-        <% for(let key in questionObject)%>
-        <div><h3><%=questionObject[key].firstQuestion%></h3></div>
-       <li><h4><%=questionObject[key].answerOne%></h4></li>
-       <li><h4><%=questionObject[key].answerTwo%></h4></li>
-       <li><h4><%=questionObject[key].answerThree%></h4></li>
-       <li><h4><%=questionObject[key].answerFour%></h4></li>
+        
+        <div><h3><%=questionObject.firstQuestion%></h3></div>
+       <li><h4><%=questionObject.answerOne%></h4></li>
+       <li><h4><%=questionObject.answerTwo%></h4></li>
+       <li><h4><%=questionObject.answerThree%></h4></li>
+       <li><h4><%=questionObject.answerFour%></h4></li>
     </ol>
-    <%}%>
+    
     <button><a href="/creatingQuiz"></a>CREATE ANOTHER QUIZ</button>
     <!--Fix the link to creating quiz-->
 </body>

@@ -116,7 +116,7 @@ app.get("/register", (req,res)=>{
   res.render("registrationPage",templateVars)
 })
 
-app.get("creatingQuiz", (req,res)=>{
+app.get("/creatingQuiz", (req,res)=>{
   const currentSession = req.session.userId
   const existsingUser=usersDatabase[currentSession]
   const templateVars ={user: existsingUser}

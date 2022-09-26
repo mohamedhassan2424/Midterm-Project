@@ -48,6 +48,13 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+app.get("/login", (req,res)=>{
+  res.render("loginPage")
+})
+app.post("/login", (req, res)=>{
+  
+})
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });

@@ -1,10 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<header>
-    <button> <a class="navbar-brand" href="/mainPage">CREATING QUIZ PAGE</a></button>
-    <button> <a class="navbar-brand" href="/register">REGISTRATION PAGE</a></button>
-    <button> <a class="navbar-brand" href="/login">LOG IN PAGE</a></button>
-    <form method="POST" action="/logout"> 
-        <input  class ="navbar-brand" type="submit" value="Logout" >
+  <head>
+    <title>QUIZ APP</title>
+  </head>
+  <body>
+    <header>
+      <% if(!user) { %>
+      <button>
+        <a class="navbar-brand" href="/mainPage">CREATING QUIZ PAGE</a>
+      </button>
+      <button>
+        <a class="navbar-brand" href="/register">REGISTRATION PAGE</a>
+      </button>
+      <button><a class="navbar-brand" href="/login">LOG IN PAGE</a></button>
+      <%  } else { %>
+      <button>
+        <a class="navbar-brand" href="/mainPage">CREATING QUIZ PAGE</a>
+      </button>
+      <span>Welcome : <%= user.firstName %></span>
+      <span>Asscociated Email : <%= user.email %></span>
+      <form method="POST" action="/logout">
+        <input class="navbar-brand" type="submit" value="Logout" />
       </form>
-  </header>
+      <% } %>
+    </header>
+

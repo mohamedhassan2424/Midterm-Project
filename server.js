@@ -69,17 +69,18 @@ app.get('/', (req, res) => {
 app.get("/mainPage", (req,res)=>{
   const currentSession = req.session.userId
   const existsingUser=usersDatabase[currentSession]
-  const userData ={users :existsingUser}
-  res.render("mainPage",userData)
+  const templateVars ={user: existsingUser}
+  res.render("mainPage",templateVars)
 })
 app.get("/login", (req,res)=>{
   const currentSession = req.session.userId
   const existsingUser=usersDatabase[currentSession]
+  const templateVars ={user: existsingUser}
   console.log("existsingUser",existsingUser)
   if(existsingUser){
     return res.redirect('/mainPage')
   }
-  res.render("loginPage")
+  res.render("loginPage",templateVars)
 })
 app.post("/login", (req,res)=>{
   const { email, password } = req.body;
@@ -94,24 +95,25 @@ app.post("/login", (req,res)=>{
   }
   if (comparingThePassword && loggedInUser) {
     req.session.userId = loggedInUser.id;
-    return res.render("mainPage");
+    return res.redirect("/mainPage");
   }
   //res.render("loginPage")
 })
 
 app.post("/logout", (req,res)=>{
-  req.session.userId = null
-  res.render("logoutPage")
+  req.session = null
+  res.redirect("/mainPage")
 })
 app.get("/register", (req,res)=>{
   const currentSession = req.session.userId
   console.log("Current Session", req.session.userId)
   const existsingUser=usersDatabase[currentSession]
+  const templateVars ={user: existsingUser}
   console.log("existsingUser",existsingUser)
   if(existsingUser){
-    return res.render("mainPage")
+    return res.redirect("/mainPage")
   }
-  res.render("registrationPage")
+  res.render("registrationPage",templateVars)
 })
 
 app.post("/register", (req,res)=>{

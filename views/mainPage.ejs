@@ -7,11 +7,11 @@
 </head>
 <body>
     <h1>WELECOME TO THE MAIN PAGE QUIZ CREATOR</h1>
-   <% if(!users) { %>
-    <h3>PLEASE LOG IN OR REGISTER FOR ACCESS TO QUIZES</h3>
-  <%  } %>
-  <% if(users) { %>
-    <h3>YOU ARE ALL LOGGED IN</h3>
+   <% if(!user) { %>
+    <h3>PLEASE LOG IN OR REGISTER FOR ACCESS THE QUIZES</h3>
+  <%  } else { %>
+    <h3>YOU ARE LOGGED IN</h3>
+    <button></button>
   <%  } %>
 </body>
 </html>

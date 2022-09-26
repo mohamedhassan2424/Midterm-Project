@@ -94,7 +94,10 @@ app.post("/login", (req,res)=>{
   //res.render("loginPage")
 })
 
-
+app.post("/logout", (req,res)=>{
+  req.session.userID = null
+  res.render("logoutPage")
+})
 app.get("/register", (req,res)=>{
   const currentSession = req.session.userId
   console.log("Current Session", req.session.userId)

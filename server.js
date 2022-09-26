@@ -7,6 +7,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cookieSession = require('cookie-session')
 const bcrypt = require("bcryptjs");
+const { getUserByEmail} = require("./helperFunction")
 const PORT = process.env.PORT || 8080;
 const app = express();
 
@@ -63,21 +64,41 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+app.get("/mainPage", (req,res)=>{
+  res.render("mainPage")
+})
 app.get("/login", (req,res)=>{
+  const currentSession = req.session.userId
+  const existsingUser=usersDatabase[currentSession]
+  console.log("existsingUser",existsingUser)
+  if(existsingUser){
+    return res.redirect('/mainPage')
+  }
   res.render("loginPage")
 })
 app.post("/login", (req,res)=>{
   const { email, password } = req.body;
   const currentSession = req.session.userId
   const existsingUser=usersDatabase[currentSession]
-  const user = getUserByEmail(email, usersDatabase);
-  res.render("loginPage")
+  const loggedInUser= getUserByEmail(email, usersDatabase);
+
+  const comparingThePassword = bcrypt.compareSync(password, loggedInUser.password)
+  console.log("comparingThePassword",comparingThePassword)
+  if(!comparingThePassword){
+    res.send('Invlaid Password, Please Try and re-enter your password again.')
+  }
+  if (comparingThePassword && loggedInUser) {
+    req.session.userId = loggedInUser.id;
+    return res.render("mainPage");
+  }
+  //res.render("loginPage")
 })
 app.get("/register", (req,res)=>{
   const currentSession = req.session.userId
   const existsingUser=usersDatabase[currentSession]
+  console.log("existsingUser",existsingUser)
   if(existsingUser){
-    return res.send("YOUR ARE STILL LOGGED IN")
+    return res.render("mainPage")
   }
   res.render("registrationPage")
 })
@@ -93,10 +114,10 @@ app.post("/register", (req,res)=>{
   }
   req.session.userId=generatedId;
   console.log(usersDatabase)
-  console.log(email)
-  console.log(password)
-  console.log(newhashedPassword)
-  res.send("THANK YOU FOR LOGING.YOUR ARE KNOW AT THE MAIN PAGE")
+  //console.log(email)
+  //console.log(password)
+  //console.log(newhashedPassword)
+  res.redirect("/mainPage")
 })
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

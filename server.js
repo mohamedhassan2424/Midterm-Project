@@ -148,15 +148,15 @@ app.post("/creatingQuiz", (req,res)=>{
     answerFour:fourthAnswer
   }
   console.log("QuestionText",questionText)
-  const templateVars ={user: existsingUser,questionObject:questionText}
+  const templateVars ={user: existsingUser,questionObject:questionText[generatedId]}
   res.render("quizCreatedSuccesfully",templateVars)
 })
-app.get("/quizCreatedSuccesfully", (req,res)=>{
+/*app.get("/quizCreatedSuccesfully", (req,res)=>{
   const currentSession = req.session.userId
   const existsingUser=usersDatabase[currentSession]
-  const templateVars ={user: existsingUser,questionObject:questionText}
+  //const templateVars ={user: existsingUser,questionObject:questionText[generatedId]}
   res.render("quizCreatedSuccesfully",templateVars)
-})
+})*/
 app.post("/register", (req,res)=>{
   const generatedId = Math.random().toString(36).substring(2, 8);
   const { email, password,firstName,lastName } = req.body;

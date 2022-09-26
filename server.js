@@ -66,24 +66,37 @@ app.get('/', (req, res) => {
 app.get("/login", (req,res)=>{
   res.render("loginPage")
 })
-
+app.post("/login", (req,res)=>{
+  const { email, password } = req.body;
+  const currentSession = req.session.userId
+  const existsingUser=usersDatabase[currentSession]
+  const user = getUserByEmail(email, usersDatabase);
+  res.render("loginPage")
+})
 app.get("/register", (req,res)=>{
+  const currentSession = req.session.userId
+  const existsingUser=usersDatabase[currentSession]
+  if(existsingUser){
+    return res.send("YOUR ARE STILL LOGGED IN")
+  }
   res.render("registrationPage")
 })
 
 app.post("/register", (req,res)=>{
   const generatedId = Math.random().toString(36).substring(2, 8);
   const { email, password } = req.body;
-
+  const newhashedPassword = bcrypt.hashSync(password, 10)
   usersDatabase.id= {
     id:generatedId,
     email:email,
-    password:password
+    password:newhashedPassword
   }
+  req.session.userId=generatedId;
   console.log(usersDatabase)
   console.log(email)
   console.log(password)
-  res.send("THANK YOU FOR LOGING")
+  console.log(newhashedPassword)
+  res.send("THANK YOU FOR LOGING.YOUR ARE KNOW AT THE MAIN PAGE")
 })
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

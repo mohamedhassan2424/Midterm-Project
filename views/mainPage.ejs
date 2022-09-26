@@ -1,17 +1,13 @@
 <%- include('header') %>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 <body>
     <h1>WELECOME TO THE MAIN PAGE QUIZ CREATOR</h1>
    <% if(!user) { %>
     <h3>PLEASE LOG IN OR REGISTER FOR ACCESS THE QUIZES</h3>
   <%  } else { %>
     <h3>YOU ARE LOGGED IN</h3>
-    <button></button>
+    <button>
+        <a class="navbar-brand" href="/creatingQuiz">CLICK HERE TO CREATE QUIZ</a>
+      </button>
   <%  } %>
 </body>
 </html>

@@ -116,6 +116,13 @@ app.get("/register", (req,res)=>{
   res.render("registrationPage",templateVars)
 })
 
+app.get("creatingQuiz", (req,res)=>{
+  const currentSession = req.session.userId
+  const existsingUser=usersDatabase[currentSession]
+  const templateVars ={user: existsingUser}
+
+  res.render("creatingQuizPage",templateVars)
+})
 app.post("/register", (req,res)=>{
   const generatedId = Math.random().toString(36).substring(2, 8);
   const { email, password,firstName,lastName } = req.body;

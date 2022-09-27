@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS quizzes CASCADE;
+CREATE TABLE quizzes (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  question VARCHAR(255) NOT NULL,
+  first_answer VARCHAR(255) NOT NULL,
+  second_answer VARCHAR(255) NOT NULL,
+  third_answer VARCHAR(255) NOT NULL,
+  fourth_answer VARCHAR(255) NOT NULL
+);
+

@@ -208,11 +208,34 @@ app.get("/creating-quiz-page", (req, res) => {
 
 app.post("/creating-quiz-page", (req, res) => {
   const currentSession = req.session.userId;
-  const existsingUser = usersDatabase[currentSession];
+  //const existsingUser = usersDatabase[currentSession];
   const { question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
     req.body;
-  console.log("QUESITONNNN", question);
-  const generatedId = Math.random().toString(36).substring(2, 8);
+  //console.log("QUESITONNNN", question);
+  const insertingQuestionProperties = (question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer )=>{
+    return pool
+    .query(`INSERT INTO quizzes (question, first_answer, second_answer, third_answer, fourth_answer )
+    VALUES ($1,$2,$3,$4,$5) RETURNING *;`,[question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer ])
+    .then((response)=>{
+      
+    console.log("DATA VALUES",response.rows[0])
+      const dataProperties = response.rows[0]
+      const templateVars = {
+
+      }
+    //req.session.userId = data.rows[0].id
+    /*const templateVars = {
+      user: existsingUser,
+      questionObject: questionText[generatedId],
+    };*/
+    res.render("quiz-created", templateVars);
+    //res.send("YOU HAVE SUCCESSFULLY MADE A QUIZ")
+    }).catch((error)=>{
+    console.log("THEIR IS AN ERROR",error.message)
+    })
+    }
+    insertingQuestionProperties(question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer)
+  /*const generatedId = Math.random().toString(36).substring(2, 8);
   questionText[generatedId] = {
     id: generatedId,
     firstQuestion: question,
@@ -220,13 +243,13 @@ app.post("/creating-quiz-page", (req, res) => {
     answerTwo: secondAnswer,
     answerThree: thirdAnswer,
     answerFour: fourthAnswer,
-  };
-  console.log("QuestionText", questionText);
-  const templateVars = {
+  };*/
+  //console.log("QuestionText", questionText);
+  /*const templateVars = {
     user: existsingUser,
     questionObject: questionText[generatedId],
   };
-  res.render("quiz-created", templateVars);
+  res.render("quiz-created", templateVars);*/
 });
 
 /*app.get("/quizCreatedSuccesfully", (req,res)=>{

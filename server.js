@@ -212,29 +212,37 @@ app.post("/creating-quiz-page", (req, res) => {
   const { question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
     req.body;
   //console.log("QUESITONNNN", question);
-  const insertingQuestionProperties = (question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer )=>{
+  const insertingQuestionProperties = (userid, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer )=>{
     return pool
-    .query(`INSERT INTO quizzes (question, first_answer, second_answer, third_answer, fourth_answer )
-    VALUES ($1,$2,$3,$4,$5) RETURNING *;`,[question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer ])
+    .query(`INSERT INTO quizzes (user_id,question, first_answer, second_answer, third_answer, fourth_answer )
+    VALUES ($1,$2,$3,$4,$5,$6) RETURNING *;`,[userid, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer ])
     .then((response)=>{
       
     console.log("DATA VALUES",response.rows[0])
-      const dataProperties = response.rows[0]
+    const dataProperties = response.rows[0]
+    pool.query(`SELECT * FROM users
+    WHERE users.id= $1;`,[currentSession])
+    .then((response)=>{
+    const userData = response.rows[0]
+    const templateVars = { user: userData,questionObject:dataProperties};
+    res.render("quiz-created", templateVars);
+  })
+      /*const dataProperties = response.rows[0]
       const templateVars = {
-
-      }
+        
+      }*/
     //req.session.userId = data.rows[0].id
     /*const templateVars = {
       user: existsingUser,
       questionObject: questionText[generatedId],
     };*/
-    res.render("quiz-created", templateVars);
+    //res.render("quiz-created", templateVars);
     //res.send("YOU HAVE SUCCESSFULLY MADE A QUIZ")
     }).catch((error)=>{
     console.log("THEIR IS AN ERROR",error.message)
     })
     }
-    insertingQuestionProperties(question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer)
+    insertingQuestionProperties(currentSession,question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer)
   /*const generatedId = Math.random().toString(36).substring(2, 8);
   questionText[generatedId] = {
     id: generatedId,

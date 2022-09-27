@@ -192,10 +192,18 @@ app.get("/register", (req, res) => {
 
 app.get("/creating-quiz-page", (req, res) => {
   const currentSession = req.session.userId;
-  const existsingUser = usersDatabase[currentSession];
-  const templateVars = { user: existsingUser };
-
-  res.render("creating-quiz-page", templateVars);
+  //const existsingUser = usersDatabase[currentSession];
+  //const templateVars = { user: existsingUser };
+  pool.query(`SELECT * FROM users
+  WHERE users.id= $1;`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows[0]
+    const templateVars = { user: userData};
+    res.render("creating-quiz-page", templateVars);
+  }).catch((error)=>{
+    console.log("Their is an error", error.message)
+    })
+  //res.render("creating-quiz-page", templateVars);
 });
 
 app.post("/creating-quiz-page", (req, res) => {

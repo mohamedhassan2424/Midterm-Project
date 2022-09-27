@@ -10,7 +10,7 @@ const bcrypt = require("bcryptjs");
 const { getUserByEmail } = require("./helperFunction");
 const PORT = process.env.PORT || 8080;
 const app = express();
-
+const $ = require( "jquery" )
 app.set("view engine", "ejs");
 const pool = new Pool({
   user: 'labber',
@@ -195,6 +195,7 @@ app.get("/creating-quiz-page", (req, res) => {
   const currentSession = req.session.userId;
   //const existsingUser = usersDatabase[currentSession];
   //const templateVars = { user: existsingUser };
+
   pool.query(`SELECT * FROM users
   WHERE users.id= $1;`,[currentSession])
   .then((response)=>{
@@ -204,19 +205,20 @@ app.get("/creating-quiz-page", (req, res) => {
   }).catch((error)=>{
     console.log("Their is an error", error.message)
     })
+    
   //res.render("creating-quiz-page", templateVars);
 });
 
 app.post("/creating-quiz-page", (req, res) => {
   const currentSession = req.session.userId;
   //const existsingUser = usersDatabase[currentSession];
-  const { question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
+  const {quiz_title, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
     req.body;
   //console.log("QUESITONNNN", question);
-  const insertingQuestionProperties = (userid, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer )=>{
+  const insertingQuestionProperties = (quiz_title,userid, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer )=>{
     return pool
-    .query(`INSERT INTO quizzes (user_id,question, first_answer, second_answer, third_answer, fourth_answer )
-    VALUES ($1,$2,$3,$4,$5,$6) RETURNING *;`,[userid, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer ])
+    .query(`INSERT INTO quizzes (quiz_title,user_id,question, first_answer, second_answer, third_answer, fourth_answer )
+    VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *;`,[quiz_title,userid, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer ])
     .then((response)=>{
       
     console.log("DATA VALUES",response.rows[0])
@@ -232,7 +234,7 @@ app.post("/creating-quiz-page", (req, res) => {
     console.log("THEIR IS AN ERROR",error.message)
     })
     }
-    insertingQuestionProperties(currentSession,question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer)
+    insertingQuestionProperties(quiz_title,currentSession,question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer)
   /*const generatedId = Math.random().toString(36).substring(2, 8);
   questionText[generatedId] = {
     id: generatedId,

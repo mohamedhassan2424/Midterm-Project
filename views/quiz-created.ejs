@@ -1,9 +1,9 @@
 <%- include('header') %>
 <body>
     <h2>Quiz created successfully</h2>
+    <% for(let questionObject of usersQuiz ) {%>
+        <div><h3><u><%=questionObject.question%></u></h3></div>
     <ol>
-        <% for(let questionObject of usersQuiz ) {%>
-        <div><h3><%=questionObject.question%></h3></div>
        <li><h4><%=questionObject.first_answer%></h4></li>
        <li><h4><%=questionObject.second_answer%></h4></li>
        <li><h4><%=questionObject.third_answer%></h4></li>

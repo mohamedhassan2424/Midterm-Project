@@ -172,6 +172,7 @@ app.post("/logout", (req, res) => {
 
 app.get("/register", (req, res) => {
   const currentSession = req.session.userId;
+  console.log("WORKING HERE")
   //console.log("Current Session", req.session.userId);
   //const existsingUser = usersDatabase[currentSession];
   //const templateVars = { user: existsingUser };

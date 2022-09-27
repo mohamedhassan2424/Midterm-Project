@@ -109,7 +109,7 @@ app.get("/login", (req, res) => {
   .then((response)=>{
     const userData = response.rows[0]
     const templateVars = { user: userData};
-    if (existsingUser) {
+    if (userData) {
       return res.redirect("/main-page");
     }
     res.render("login-page", templateVars);

@@ -213,25 +213,26 @@ app.post("/register", (req, res) => {
     firstName: firstName,
     lastName: lastName,
   };
-  pool.query(`
+  
+const insertingProperties = ( firstName, lastName,email, password)=>{
+return pool
+.query(`INSERT INTO users (firstname,lastname,email,password)
+VALUES ($1,$2,$3,$4);`,[firstName, lastName,email, password]
+.then((data)=>{
+console.log(data.rows)
+}).catch((error)=>{
+console.log("THEIR IS AN ERROR",error.message)
+}))
+}
+console.log("INSERTING PROPERTIES DATA", insertingProperties )
+pool.query(`
   SELECT *
-  FROM users
-  LIMIT 5;
+  FROM users;
   `)
   .then(res => {
     console.log("POSSIBLE USERS",res.rows);
   })
   .catch(err => console.error('query error', err.stack));
-const insertingProperties = ({ firstName, lastName,email, password})=>{
-return Pool
-.query(`INSERT INTO users (firstname,lastname,email,password)
-VALUES ($1,$2,$3,$4)`,[firstName, lastName,email, password]
-.then((data)=>{
-console.log(data.rows)
-}).catch((error)=>{
-console.log("THEIR IS AN E")
-}))
-}
   req.session.userId = generatedId;
   console.log(usersDatabase);
   console.log("REQ-session-Id", req.session.userId);

@@ -225,8 +225,8 @@ app.post("/creating-quiz-page", (req, res) => {
     WHERE users.id= $1;`,[currentSession])
     .then((response)=>{
     const userData = response.rows[0]
-    const templateVars = { user: userData,questionObject:dataProperties};
-    res.render("quiz-created", templateVars);
+    //const templateVars = { user: userData,questionObject:dataProperties};
+    res.redirect("/quiz-created");
   })
     }).catch((error)=>{
     console.log("THEIR IS AN ERROR",error.message)
@@ -252,17 +252,18 @@ app.post("/creating-quiz-page", (req, res) => {
 
 app.get("/quiz-created", (req,res)=>{
   const currentSession = req.session.userId
+  console.log("CURRENT SESSION", currentSession)
   pool.query(`SELECT * FROM quizzes
   JOIN users ON user_id=users.id
-  WHERE user_id = $1`,[currentSession])
+  WHERE user_id = $1;`,[currentSession])
   .then((response)=>{
-  const dataProperties= response.rows[0]
-  console.log("DATA PROPERTIES",dataProperties )
+  const usersQuiz= response.rows;
+  console.log("DATA PROPERTIES",usersQuiz )
   pool.query(`SELECT * FROM users
-  WHERE user.id = $1`,[currentSession])
+  WHERE users.id = $1;`,[currentSession])
   .then((response)=>{
     const userData = response.rows[0]
-    const templateVars = { user: userData,questionObject:dataProperties}
+    const templateVars = { user: userData,usersQuiz}
     res.render("quiz-created",templateVars)
   })
   })

@@ -9,3 +9,7 @@ CREATE TABLE users (
   password VARCHAR(255) NOT NULL
 );
 
+-- SELECT * FROM quizzes 
+--JOIN users IN user_id=user.id
+--WHERE user_id = currentSession
+

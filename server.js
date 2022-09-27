@@ -249,13 +249,26 @@ app.post("/creating-quiz-page", (req, res) => {
   res.render("quiz-created", templateVars);*/
 });
 
-/*app.get("/quizCreatedSuccesfully", (req,res)=>{
+app.get("/quiz-created", (req,res)=>{
   const currentSession = req.session.userId
-  const existsingUser=usersDatabase[currentSession]
-  const generateValue =questionT
-  const templateVars ={user: existsingUser,questionObject:questionText[generatedId]}
-  res.render("quizCreatedSuccesfully",templateVars)
-})*/
+  pool.query(`SELECT * FROM quizzes
+  JOIN users ON user_id=users.id
+  WHERE user_id = $1`,[currentSession])
+  .then((response)=>{
+  const dataProperties= response.rows[0]
+  console.log("DATA PROPERTIES",dataProperties )
+  pool.query(`SELECT * FROM users
+  WHERE user.id = $1`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows[0]
+    const templateVars = { user: userData,questionObject:dataProperties}
+    res.render("quiz-created",templateVars)
+  })
+  })
+  .catch((error)=>{
+    console.log("THEIR IS AN ERROR",error.message)
+    })
+});
 
 app.post("/register", (req, res) => {
   const generatedId = Math.random().toString(36).substring(2, 8);

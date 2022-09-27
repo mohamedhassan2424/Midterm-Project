@@ -86,31 +86,54 @@ app.get("/", (req, res) => {
 
 app.get("/main-page", (req, res) => {
   const currentSession = req.session.userId;
-  const existsingUser = usersDatabase[currentSession];
-  const templateVars = { user: existsingUser };
-  res.render("main-page", templateVars);
+  pool.query(`SELECT * FROM users
+  WHERE users.id= $1;`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows[0]
+    const templateVars = { user: userData};
+    res.render("main-page", templateVars);
+  }).catch((error)=>{
+    console.log("Their is an error", error.message)
+    })
+  //const existsingUser = usersDatabase[currentSession];
+  //const templateVars = { user: existsingUser };
+  //res.render("main-page", templateVars);
 });
 
 app.get("/login", (req, res) => {
   const currentSession = req.session.userId;
-  const existsingUser = usersDatabase[currentSession];
-  const templateVars = { user: existsingUser };
-  if (existsingUser) {
+  //const existsingUser = usersDatabase[currentSession];
+  //const templateVars = { user: existsingUser };
+  pool.query(`SELECT * FROM users
+  WHERE users.id= $1;`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows[0]
+    const templateVars = { user: userData};
+    if (existsingUser) {
+      return res.redirect("/main-page");
+    }
+    res.render("login-page", templateVars);
+  })
+  .catch((error)=>{
+    console.log("Their is an error", error.message)
+    })
+  /*if (existsingUser) {
     return res.redirect("/main-page");
   }
-  res.render("login-page", templateVars);
+  res.render("login-page", templateVars);*/
 });
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
   const currentSession = req.session.userId;
+  /*
   const existsingUser = usersDatabase[currentSession];
   const loggedInUser = getUserByEmail(email, usersDatabase);
   const comparingThePassword = bcrypt.compareSync(
     password,
     loggedInUser.password
-  );
-pool.query(`SELECT email,password FROM users
+  );*/
+pool.query(`SELECT id ,email,password,firstname,lastname FROM users
 WHERE email = $1;`,[email])
 .then((response)=>{
   const loggedInEmail = response.rows[0]
@@ -120,19 +143,26 @@ WHERE email = $1;`,[email])
     passwordObj
   );
 console.log("ComparingThePassword",comparingThePassword)
+if (!comparingThePassword) {
+  res.send("Invlaid Password, Please Try and re-enter your password again.");
+}
+if (comparingThePassword) {
+  req.session.userId = response.rows[0].id ;
+  return res.redirect("/main-page");
+}
 })
 .catch((error)=>{
 console.log("Their is an error", error.message)
 })
  
   //console.log("comparingThePassword", comparingThePassword);
-  if (!comparingThePassword) {
+ /* if (!comparingThePassword) {
     res.send("Invlaid Password, Please Try and re-enter your password again.");
   }
   if (comparingThePassword && loggedInUser) {
     req.session.userId = loggedInUser.id;
     return res.redirect("/main-page");
-  }
+  }*/
 });
 
 app.post("/logout", (req, res) => {
@@ -142,14 +172,22 @@ app.post("/logout", (req, res) => {
 
 app.get("/register", (req, res) => {
   const currentSession = req.session.userId;
-  console.log("Current Session", req.session.userId);
-  const existsingUser = usersDatabase[currentSession];
-  const templateVars = { user: existsingUser };
-  console.log("existsingUser", existsingUser);
-  if (existsingUser) {
-    return res.redirect("/main-page");
-  }
+  //console.log("Current Session", req.session.userId);
+  //const existsingUser = usersDatabase[currentSession];
+  //const templateVars = { user: existsingUser };
+  //console.log("existsingUser", existsingUser);
+  pool.query(`SELECT * FROM users
+  WHERE users.id= $1;`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows[0]
+    const templateVars = { user: userData};
+    if (userData) {
+      return res.redirect("/main-page");
+    }
   res.render("registration-page", templateVars);
+  }).catch((error)=>{
+    console.log("Their is an error", error.message)
+    })
 });
 
 app.get("/creating-quiz-page", (req, res) => {
@@ -231,19 +269,20 @@ app.post("/register", (req, res) => {
 const insertingProperties = ( firstName, lastName,email, password)=>{
 return pool
 .query(`INSERT INTO users (firstname,lastname,email,password)
-VALUES ($1,$2,$3,$4);`,[firstName, lastName,email, password])
+VALUES ($1,$2,$3,$4) RETURNING *;`,[firstName, lastName,email, password])
 .then((data)=>{
 console.log("DATA VALUES",data.rows)
+req.session.userId = data.rows[0].id
+res.redirect("/main-page"); 
 }).catch((error)=>{
 console.log("THEIR IS AN ERROR",error.message)
 })
 }
 insertingProperties(firstName, lastName,email, newhashedPassword);
-  req.session.userId = generatedId;
   //console.log(email)
   //console.log(password)
   //console.log(newhashedPassword)
-  res.redirect("/main-page");
+  
 });
 
 app.listen(PORT, () => {

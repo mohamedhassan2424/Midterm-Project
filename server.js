@@ -1,6 +1,6 @@
 // load .env data into process.env
 require("dotenv").config();
-
+const { Pool } = require('pg');
 // Web server config
 const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
@@ -12,7 +12,12 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 app.set("view engine", "ejs");
-
+const pool = new Pool({
+  user: 'labber',
+  password: 'labber',
+  host: 'localhost',
+  database: 'midterm'
+});
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -208,6 +213,25 @@ app.post("/register", (req, res) => {
     firstName: firstName,
     lastName: lastName,
   };
+  pool.query(`
+  SELECT *
+  FROM users
+  LIMIT 5;
+  `)
+  .then(res => {
+    console.log("POSSIBLE USERS",res.rows);
+  })
+  .catch(err => console.error('query error', err.stack));
+const insertingProperties = ({ firstName, lastName,email, password})=>{
+return Pool
+.query(`INSERT INTO users (firstname,lastname,email,password)
+VALUES ($1,$2,$3,$4)`,[firstName, lastName,email, password]
+.then((data)=>{
+console.log(data.rows)
+}).catch((error)=>{
+console.log("THEIR IS AN E")
+}))
+}
   req.session.userId = generatedId;
   console.log(usersDatabase);
   console.log("REQ-session-Id", req.session.userId);

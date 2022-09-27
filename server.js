@@ -227,17 +227,6 @@ app.post("/creating-quiz-page", (req, res) => {
     const templateVars = { user: userData,questionObject:dataProperties};
     res.render("quiz-created", templateVars);
   })
-      /*const dataProperties = response.rows[0]
-      const templateVars = {
-        
-      }*/
-    //req.session.userId = data.rows[0].id
-    /*const templateVars = {
-      user: existsingUser,
-      questionObject: questionText[generatedId],
-    };*/
-    //res.render("quiz-created", templateVars);
-    //res.send("YOU HAVE SUCCESSFULLY MADE A QUIZ")
     }).catch((error)=>{
     console.log("THEIR IS AN ERROR",error.message)
     })

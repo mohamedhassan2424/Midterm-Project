@@ -106,12 +106,26 @@ app.post("/login", (req, res) => {
   const currentSession = req.session.userId;
   const existsingUser = usersDatabase[currentSession];
   const loggedInUser = getUserByEmail(email, usersDatabase);
-
   const comparingThePassword = bcrypt.compareSync(
     password,
     loggedInUser.password
   );
-  console.log("comparingThePassword", comparingThePassword);
+pool.query(`SELECT email,password FROM users
+WHERE email = $1;`,[email])
+.then((response)=>{
+  const loggedInEmail = response.rows[0]
+  const passwordObj = loggedInEmail.password
+  const comparingThePassword = bcrypt.compareSync(
+    password,
+    passwordObj
+  );
+console.log("ComparingThePassword",comparingThePassword)
+})
+.catch((error)=>{
+console.log("Their is an error", error.message)
+})
+ 
+  //console.log("comparingThePassword", comparingThePassword);
   if (!comparingThePassword) {
     res.send("Invlaid Password, Please Try and re-enter your password again.");
   }
@@ -217,25 +231,15 @@ app.post("/register", (req, res) => {
 const insertingProperties = ( firstName, lastName,email, password)=>{
 return pool
 .query(`INSERT INTO users (firstname,lastname,email,password)
-VALUES ($1,$2,$3,$4);`,[firstName, lastName,email, password]
+VALUES ($1,$2,$3,$4);`,[firstName, lastName,email, password])
 .then((data)=>{
-console.log(data.rows)
+console.log("DATA VALUES",data.rows)
 }).catch((error)=>{
 console.log("THEIR IS AN ERROR",error.message)
-}))
+})
 }
-console.log("INSERTING PROPERTIES DATA", insertingProperties )
-pool.query(`
-  SELECT *
-  FROM users;
-  `)
-  .then(res => {
-    console.log("POSSIBLE USERS",res.rows);
-  })
-  .catch(err => console.error('query error', err.stack));
+insertingProperties(firstName, lastName,email, newhashedPassword);
   req.session.userId = generatedId;
-  console.log(usersDatabase);
-  console.log("REQ-session-Id", req.session.userId);
   //console.log(email)
   //console.log(password)
   //console.log(newhashedPassword)

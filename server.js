@@ -266,9 +266,10 @@ app.get("/creating-quiz-page", (req, res) => {
   WHERE users.id =$1 AND quizzes_template.id=$2;`,[currentSession,quizzesTemplateId])
   .then((response)=>{
     const userData = response.rows[0]
-    const value = userData.questionvalue
-    console.log("VALUE",value)
-    const templateVars = { user: userData};
+    console.log("number of rows:", response.rows.length)
+    // const value = userData ? userData.questionValue : "";
+
+    const templateVars = { user: userData ? userData : null };
     res.render("creating-quiz-page", templateVars);
   }).catch((error)=>{
     console.log("Their is an error", error.message)
@@ -311,13 +312,13 @@ app.post("/creating-quiz-page", (req, res) => {
     console.log("THEIR IS AN ERROR",error.message)
     })
     }
-    question.forEach((eachQuestion, index) => { 
+    question.forEach((eachQuestion, index) => {
     insertingQuestionProperties(currentSession,quizzesTemplateId,eachQuestion, firstAnswer[index], secondAnswer[index], thirdAnswer[index], fourthAnswer[index]);
     })
     res.redirect("/quiz-created")
-  
 
-   
+
+
   /*const generatedId = Math.random().toString(36).substring(2, 8);
   questionText[generatedId] = {
     id: generatedId,

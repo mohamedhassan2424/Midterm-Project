@@ -2,14 +2,18 @@
 <body>
     
     <% for(let eachObject of user) { %>
-        <div><INPUT TYPE="RADIO" VALUE="A" NAME="cc">
-            A. Another name for Java<BR></div>
+        <label><h4><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></h4></label>
+        <label><h4><u>QUIZ CATEGORIES: <%=eachObject.categories.toUpperCase() %></u></h4></label>
+        <div><INPUT TYPE="RADIO" VALUE="answerA" NAME="answerA">
+            A. <%=eachObject.first_answer %><BR></div>
             
-            <div><INPUT TYPE="RADIO" VALUE="B" NAME="cc">
-            B. A scripting language mostly for the web<BR></div>
+            <div><INPUT TYPE="RADIO" VALUE="answerB" NAME="answerB">
+            B. <%=eachObject.second_answer %><BR></div>
             
-            <div><INPUT TYPE="RADIO" VALUE="C" NAME="cc">
-            C. When you use Java without compiling<BR>
+            <div><INPUT TYPE="RADIO" VALUE="answerC" NAME="answerC">
+            C. <%=eachObject.third_answer%><BR>
+            <div><INPUT TYPE="RADIO" VALUE="answerD" NAME="answerD">
+            D. <%=eachObject.fourth_answer%><BR>
             
             <INPUT TYPE="SUBMIT" VALUE="Submit Answer">
        

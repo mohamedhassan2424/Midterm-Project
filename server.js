@@ -125,7 +125,7 @@ app.get("/login", (req, res) => {
   }
   res.render("login-page", templateVars);*/
 });
-app.get("answerQuiz", (req,res)=>{
+app.get("/answerQuiz", (req,res)=>{
   const currentSession = req.session.userId;
   const quizzesTemplateId =req.session.quizzzesTemplateId
   pool.query(`SELECT * FROM users
@@ -137,7 +137,7 @@ app.get("answerQuiz", (req,res)=>{
     console.log("USER DATA",userData)
     console.log("USER QUIZ TITLE",userData.quiz_title)
     const templateVars = { user: userData};
-    res.render("main-page", templateVars);
+    res.render("answerQuizRender", templateVars);
   }).catch((error)=>{
     console.log("Their is an error", error.message)
     })

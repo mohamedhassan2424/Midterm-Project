@@ -1,0 +1,35 @@
+<%- include('header') %>
+<body>
+    
+    <% for(let eachObject of user) { %>
+        <div><INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+            A. Another name for Java<BR></div>
+            
+            <div><INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+            B. A scripting language mostly for the web<BR></div>
+            
+            <div><INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+            C. When you use Java without compiling<BR>
+            
+            <INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+       
+       
+        <!--<label><h4><%=eachObject.quiz_title %></h4></label>
+        <label><h4><%=eachObject.categories %></h4></label>
+        <label><h4><%=eachObject.question %></h4></label>
+        <INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+            <h4>A.<%=eachObject.first_answer %></h4><BR>
+        
+            <label><h4><%=eachObject.second_answer %></h4></label>
+        <label><h4><%=eachObject.third_answer%></h4></label>
+        <label><h4><%=eachObject.fourth_answer%></h4></label>
+      <h5>1</h5>
+      <h5>2</h5>
+      <h5>3</h5>
+      <h5>4</h5>
+            -->
+        <%  } %>
+
+
+</body>
+<html>

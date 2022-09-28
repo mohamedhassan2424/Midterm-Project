@@ -1,9 +1,9 @@
 <%- include('header') %>
 
 <body>
-    <h2>CREATE QUIZ</h2>
+    <h2>CREATE QUIZ TEMPLATE</h2>
     
-    <form method="POST" action="/creating-quiz-page">
+    <form method="POST" action="/creating-quiz-template">
         <div> <label>Quiz Title</label></div>
         <div><textarea placeholder="QUIZ TITLE" name="quiz_title"></textarea></div>
        <div> <label>Categories</label></div>
@@ -19,17 +19,17 @@
         <option value="other" name="other">Other</option>
 
       </select></div>
-    <label>Write Question here??????</label>
-   <div> <textarea placeholder="Write Question" name="question"></textarea></div>
-   <label>Write Answers</label>
-   
-    <ol>
-    <li><textarea  class="textArea" placeholder="Possible Answer" name="firstAnswer"></textarea></li>
-    <li><textarea class="textArea" placeholder="Possible Answer" name="secondAnswer"></textarea></li>
-    <li><textarea class="textArea" placeholder="Possible Answer" name="thirdAnswer"></textarea></li>
-    <li><textarea class="textArea" placeholder="Possible Answer" name="fourthAnswer"></textarea></li>
-   <ol>
-    <div><button><input type="submit" value="Create Quiz" ></input></button></div>
+    <label>How many Question Would you like to make for your Quiz</label>
+   <div> <select id="selectNumber">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+  </select></div>
+
+    <div><button><input type="submit" value="Submit Template Quiz" ></input></button></div>
     
 
 

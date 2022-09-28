@@ -153,17 +153,39 @@ if (comparingThePassword) {
 .catch((error)=>{
 console.log("Their is an error", error.message)
 })
- 
-  //console.log("comparingThePassword", comparingThePassword);
- /* if (!comparingThePassword) {
-    res.send("Invlaid Password, Please Try and re-enter your password again.");
-  }
-  if (comparingThePassword && loggedInUser) {
-    req.session.userId = loggedInUser.id;
-    return res.redirect("/main-page");
-  }*/
 });
-
+app.get("/quizTemplate",(req,res)=>{
+  const currentSession = req.session.userId;
+  pool.query(`SELECT * FROM users
+  WHERE users.id= $1;`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows[0]
+    const templateVars = { user: userData};
+    if (userData) {
+      return res.render("quizTemplatePage",templateVars);
+    }
+    res.render("login-page", templateVars);
+  })
+  .catch((error)=>{
+    console.log("Their is an error", error.message)
+    })
+ })
+app.post("/creating-quiz-template", (req,res)=>{
+  const currentSession = req.session.userId;
+  pool.query(`SELECT * FROM users
+  WHERE users.id= $1;`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows[0]
+    const templateVars = { user: userData};
+    if (userData) {
+      return res.redirect("/creating-quiz-page");
+    }
+    res.render("login-page", templateVars);
+  })
+  .catch((error)=>{
+    console.log("Their is an error", error.message)
+    })
+})
 app.post("/logout", (req, res) => {
   req.session = null;
   res.redirect("/main-page");

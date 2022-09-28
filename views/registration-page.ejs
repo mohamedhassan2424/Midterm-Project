@@ -1,17 +1,37 @@
 <%- include('header') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE-edge">
+  <meta name="viewport" content="width=devide-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="/styles/registration.css" />
+  </head>
 <body>
     <section>
-        <h1>Create Account</h1>
-        <form action="/register" method ="POST" autocomplete="off">
-        <label for ="email">Enter First Name:</label>
+        <h1 class="create">Create Account</h1>
+        <div class="info">
+        <div action="/register" method ="POST" autocomplete="off">
+      <div class="first">
+            <label for ="email">Enter First Name:</label>
         <input type="name" name="firstName" placeholder="Enter first Name">
-        <label for ="email">Enter Last Name:</label>
+      </div>
+        <div class="last">
+          <label for ="email">Enter Last Name:</label>
         <input type="name" name="lastName" placeholder="Enter Last Name">
+      </div>
+      <div class="email">
         <label for ="email">Email Address:</label>
         <input type="email" name="email" placeholder="Enter Email">
+      </div>
+      <div class="password">
         <label for ="password">Password:</label>
         <input type="password" name="password" placeholder="Password">
+      </div>
+      <div>
         <input type="submit" value="Register" >
+        </div>
         </form>
         </section>
 </body>

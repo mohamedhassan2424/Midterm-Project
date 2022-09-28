@@ -245,6 +245,8 @@ app.get("/creating-quiz-page", (req, res) => {
   WHERE users.id =$1 AND quizzes_template.id=$2;`,[currentSession,quizzesTemplateId])
   .then((response)=>{
     const userData = response.rows[0]
+    const value = userData.questionvalue
+    console.log("VALUE",value)
     const templateVars = { user: userData};
     res.render("creating-quiz-page", templateVars);
   }).catch((error)=>{

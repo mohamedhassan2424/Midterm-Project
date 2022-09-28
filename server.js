@@ -195,7 +195,7 @@ app.post("/creating-quiz-template", (req,res)=>{
         console.log("REQSESSION SESSION",req.session)
         console.log("REQSESSION ID",req.session.userId);
         return res.redirect("/creating-quiz-page");
-  
+
       })
       .catch((error)=>{
         console.log("Their is an error", error.message)
@@ -212,6 +212,7 @@ app.post("/logout", (req, res) => {
   req.session = null;
   res.redirect("/main-page");
 });
+
 
 app.get("/register", (req, res) => {
   const currentSession = req.session.userId;
@@ -252,7 +253,7 @@ app.get("/creating-quiz-page", (req, res) => {
   }).catch((error)=>{
     console.log("Their is an error", error.message)
     })
-    
+
   //res.render("creating-quiz-page", templateVars);
 });
 
@@ -276,7 +277,7 @@ app.post("/creating-quiz-page", (req, res) => {
     .query(`INSERT INTO quizzes (user_id, quizzes_template_id,question, first_answer, second_answer, third_answer, fourth_answer )
     VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *;`,[userid,quizTemplateId, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer ])
     .then((response)=>{
-      
+
     console.log("DATA VALUES",response.rows[0])
     const dataProperties = response.rows[0]
     pool.query(`SELECT * FROM users
@@ -374,7 +375,7 @@ app.post("/register", (req, res) => {
     firstName: firstName,
     lastName: lastName,
   };
-  
+
 const insertingProperties = ( firstName, lastName,email, password)=>{
 return pool
 .query(`INSERT INTO users (firstname,lastname,email,password)
@@ -383,7 +384,7 @@ VALUES ($1,$2,$3,$4) RETURNING *;`,[firstName, lastName,email, password])
 console.log("DATA VALUES",data.rows)
 req.session.userId = data.rows[0].id
 
-res.redirect("/main-page"); 
+res.redirect("/main-page");
 }).catch((error)=>{
 console.log("THEIR IS AN ERROR",error.message)
 })
@@ -392,7 +393,7 @@ insertingProperties(firstName, lastName,email, newhashedPassword);
   //console.log(email)
   //console.log(password)
   //console.log(newhashedPassword)
-  
+
 });
 
 app.listen(PORT, () => {

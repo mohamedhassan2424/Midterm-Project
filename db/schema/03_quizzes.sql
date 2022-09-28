@@ -10,3 +10,6 @@ CREATE TABLE quizzes (
   fourth_answer VARCHAR(255) NOT NULL
 );
 
+SELECT * FROM users
+JOIN quizzes_template ON user_idqt=users.id
+WHERE users.id =3 AND quizzes_template.id=10

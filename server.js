@@ -236,11 +236,13 @@ app.get("/register", (req, res) => {
 
 app.get("/creating-quiz-page", (req, res) => {
   const currentSession = req.session.userId;
+  const quizzesTemplateId =req.session.quizzzesTemplateId
   //const existsingUser = usersDatabase[currentSession];
   //const templateVars = { user: existsingUser };
 
   pool.query(`SELECT * FROM users
-  WHERE users.id= $1;`,[currentSession])
+  JOIN quizzes_template ON user_idqt=users.id
+  WHERE users.id =$1 AND quizzes_template.id=$2;`,[currentSession,quizzesTemplateId])
   .then((response)=>{
     const userData = response.rows[0]
     const templateVars = { user: userData};

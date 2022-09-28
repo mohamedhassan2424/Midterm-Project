@@ -10,7 +10,6 @@ const bcrypt = require("bcryptjs");
 const { getUserByEmail } = require("./helperFunction");
 const PORT = process.env.PORT || 8080;
 const app = express();
-const $ = require( "jquery" )
 app.set("view engine", "ejs");
 const pool = new Pool({
   user: 'labber',

@@ -7,7 +7,10 @@
     <h3>You are logged in!</h3>
     <button>
       <a class="navbar-brand" href="/quizTemplate">Click here to create Quiz Template</a>
+      <%  } %>
     </button>
-  <%  } %>
+    <% for(let eachObject of user) { %>
+      <label><h4><%=eachObject.quiz_title %></h4></label>
+    <%  } %>
 </body>
 </html>

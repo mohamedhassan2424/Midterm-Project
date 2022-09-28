@@ -1,7 +1,7 @@
 <%- include('header') %>
 
 <body>
-<<<<<<< HEAD
+
   <h2>CREATE QUIZ</h2>
   <label>Write Question here??????</label>
   <form method="POST" action="/creating-quiz-page">
@@ -12,9 +12,9 @@
       <li><textarea placeholder="Possible Answer" name="secondAnswer"></textarea></li>
       <li><textarea placeholder="Possible Answer" name="thirdAnswer"></textarea></li>
       <li><textarea placeholder="Possible Answer" name="fourthAnswer"></textarea></li>
-=======
+
     <h2>CREATE QUIZ</h2>
-    
+
     <form method="POST" action="/creating-quiz-page">
         <!--<div> <label>Quiz Title</label></div>
         <div><textarea placeholder="QUIZ TITLE" name="quiz_title"></textarea></div>
@@ -32,7 +32,9 @@
 
       </select></div>-->
       <ol>
-      <% for (let i=1; i <= user.questionvalue;i++) { %>
+        <h4>QUIZ TITLE: <%= user.quiz_title %></h4>
+        <h4>QUIZ CATEGORIES: <%= user.categories.toUpperCase() %></h4>
+      <% for (let i=1; i <= user.questionValue;i++) { %>
     <label>Write Question here?????? </label>
    <div> <textarea placeholder="Write Question" name="question"></textarea></div>
    <label>Write Answers</label>
@@ -41,20 +43,19 @@
     <li><textarea style ="background-color:#FFCCCB" class="textArea" placeholder="Possible Answer" name="secondAnswer"></textarea></li>
     <li><textarea style ="background-color:#FFCCCB" class="textArea" placeholder="Possible Answer" name="thirdAnswer"></textarea></li>
     <li><textarea style ="background-color:#FFCCCB" class="textArea" placeholder="Possible Answer" name="fourthAnswer"></textarea></li>
+  <div></div>
+  </ol>
     <% } %>
->>>>>>> master
+
     </ol>
+
     <div><button><input type="submit" value="Create Quiz" ></input></button></div>
-   
 
-
-<<<<<<< HEAD
     <div><input id="add-question" type="button" value="Add question" ></input></div>
     <div><input type="submit" value="Create Quiz" ></input></div>
   </form>
-=======
 </form>
->>>>>>> master
+
 </body>
 
 <script type="text/javascript" src="/scripts/app.js"></script>

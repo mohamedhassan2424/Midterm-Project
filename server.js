@@ -184,6 +184,9 @@ app.post("/creating-quiz-template", (req,res)=>{
     VALUES($1,$2,$3,$4) RETURNING *;`,[userid,quizTitle,catergorie,possibleQuestion])
     .then((response)=>{
       console.log("RESPONSE", response.rows[0]);
+      req.session.quizzzesTemplateId = response.rows[0].id
+      console.log("REQSESSION QUIZZZ TEMPLATES",req.session.quizzzesTemplateId)
+      console.log("REQSESSION ID",req.session.userId);
     })
     .catch((error)=>{
       console.log("Their is an error", error.message)
@@ -250,14 +253,17 @@ app.get("/creating-quiz-page", (req, res) => {
 
 app.post("/creating-quiz-page", (req, res) => {
   const currentSession = req.session.userId;
+  const quizzesTemplateId =req.session.quizzzesTemplateId
+  console.log("QUIZZESTemplateId",quizzesTemplateId)
+  console.log("CurrentSession",currentSession)
   //const existsingUser = usersDatabase[currentSession];
   const {quiz_title, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
     req.body;
   //console.log("QUESITONNNN", question);
-  const insertingQuestionProperties = (quiz_title,userid, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer )=>{
+  const insertingQuestionProperties = (userid,quizTemplateId ,question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer )=>{
     return pool
-    .query(`INSERT INTO quizzes (quiz_title,user_id,question, first_answer, second_answer, third_answer, fourth_answer )
-    VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *;`,[quiz_title,userid, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer ])
+    .query(`INSERT INTO quizzes (user_id, quizzes_template_id,question, first_answer, second_answer, third_answer, fourth_answer )
+    VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *;`,[userid,quizTemplateId, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer ])
     .then((response)=>{
       
     console.log("DATA VALUES",response.rows[0])
@@ -273,7 +279,7 @@ app.post("/creating-quiz-page", (req, res) => {
     console.log("THEIR IS AN ERROR",error.message)
     })
     }
-    insertingQuestionProperties(quiz_title,currentSession,question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer)
+    insertingQuestionProperties(currentSession,quizzesTemplateId,question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer)
   /*const generatedId = Math.random().toString(36).substring(2, 8);
   questionText[generatedId] = {
     id: generatedId,
@@ -357,6 +363,7 @@ VALUES ($1,$2,$3,$4) RETURNING *;`,[firstName, lastName,email, password])
 .then((data)=>{
 console.log("DATA VALUES",data.rows)
 req.session.userId = data.rows[0].id
+
 res.redirect("/main-page"); 
 }).catch((error)=>{
 console.log("THEIR IS AN ERROR",error.message)

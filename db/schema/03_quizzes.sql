@@ -2,8 +2,7 @@ DROP TABLE IF EXISTS quizzes CASCADE;
 CREATE TABLE quizzes (
   id SERIAL PRIMARY KEY NOT NULL,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  quizzes_template_id INTEGER REFERENCES quizzes_template (id) ON DELETE CASCADE,
-  questionValue INTEGER NOT NULL,
+  quizzes_template_id INTEGER REFERENCES quizzes_template(id) ON DELETE CASCADE,
   question VARCHAR(255) NOT NULL,
   first_answer VARCHAR(255) NOT NULL,
   second_answer VARCHAR(255) NOT NULL,

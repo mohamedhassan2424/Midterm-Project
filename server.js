@@ -141,6 +141,9 @@ app.get("/answerQuiz", (req,res)=>{
   }).catch((error)=>{
     console.log("Their is an error", error.message)
     })
+});
+app.post("/answerQuizz",(req,res)=>{
+  res.send("ALL IS GOOD")
 })
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
@@ -176,6 +179,7 @@ console.log("Their is an error", error.message)
 });
 app.get("/quizTemplate",(req,res)=>{
   const currentSession = req.session.userId;
+  console.log("ALL IS GOOD HERE")
   pool.query(`SELECT * FROM users
   WHERE users.id= $1;`,[currentSession])
   .then((response)=>{
@@ -362,6 +366,10 @@ app.get("/quiz-created", (req,res)=>{
 app.post("/register", (req, res) => {
   const generatedId = Math.random().toString(36).substring(2, 8);
   const { email, password, firstName, lastName } = req.body;
+  console.log("EMAIL", email)
+  console.log("PASSWORD", password)
+  console.log("FIRSTNAME ", firstName)
+  console.log("LASTNAME", lastName)
   const newhashedPassword = bcrypt.hashSync(password, 10);
   if (email.length === 0) {
     return res.send(

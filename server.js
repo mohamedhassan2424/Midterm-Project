@@ -182,26 +182,27 @@ app.post("/creating-quiz-template", (req,res)=>{
     return pool
     .query(`INSERT INTO quizzes_template (user_idqt,quiz_title,categories,questionValue)
     VALUES($1,$2,$3,$4) RETURNING *;`,[userid,quizTitle,catergorie,possibleQuestion])
-    .then((response)=>{
-      console.log("RESPONSE", response.rows[0]);
-      req.session.quizzzesTemplateId = response.rows[0].id
-      console.log("REQSESSION QUIZZZ TEMPLATES",req.session.quizzzesTemplateId)
-      console.log("REQSESSION ID",req.session.userId);
-    })
-    .catch((error)=>{
-      console.log("Their is an error", error.message)
-      })
   }
   pool.query(`SELECT * FROM users
   WHERE users.id= $1;`,[currentSession])
   .then((response)=>{
     const userData = response.rows[0]
-    const templateVars = { user: userData};
     if (userData) {
-      quizProperties(currentSession,quiz_title,categories,questionValueInterger);
-      return res.redirect("/creating-quiz-page");
-    }
-    res.render("login-page", templateVars);
+      quizProperties(currentSession,quiz_title,categories,questionValueInterger)
+      .then((response)=>{
+        console.log("RESPONSE", response.rows[0]);
+        req.session.quizzzesTemplateId = response.rows[0].id
+        console.log("REQSESSION SESSION",req.session)
+        console.log("REQSESSION ID",req.session.userId);
+        return res.redirect("/creating-quiz-page");
+  
+      })
+      .catch((error)=>{
+        console.log("Their is an error", error.message)
+        });
+      }else {
+    res.redirect("/login");
+      }
   })
   .catch((error)=>{
     console.log("Their is an error", error)
@@ -254,7 +255,7 @@ app.get("/creating-quiz-page", (req, res) => {
 app.post("/creating-quiz-page", (req, res) => {
   const currentSession = req.session.userId;
   const quizzesTemplateId =req.session.quizzzesTemplateId
-  console.log("QUIZZESTemplateId",quizzesTemplateId)
+  console.log("REQ OBJECT",req.session)
   console.log("CurrentSession",currentSession)
   //const existsingUser = usersDatabase[currentSession];
   const {quiz_title, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =

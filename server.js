@@ -178,10 +178,10 @@ app.post("/creating-quiz-template", (req,res)=>{
   const questionValueInterger= Number(questionValue)
   console.log("QUESTIONVALUE",Number(questionValue))
   console.log("ISINTERGERVALUE",Number. isInteger(questionValueInterger))
-  const quizProperties = (quizTitle, catergorie, possibleQuestion) =>{
+  const quizProperties = (userid,quizTitle, catergorie, possibleQuestion) =>{
     return pool
-    .query(`INSERT INTO quizzes(quiz_title,categories,questionValue)
-    VALUES($1,$2,$3) RETURNING *;`,[quizTitle,catergorie,possibleQuestion])
+    .query(`INSERT INTO quizzes_template (user_idqt,quiz_title,categories,questionValue)
+    VALUES($1,$2,$3,$4) RETURNING *;`,[userid,quizTitle,catergorie,possibleQuestion])
     .then((response)=>{
       console.log("RESPONSE", response.rows[0]);
     })
@@ -195,7 +195,7 @@ app.post("/creating-quiz-template", (req,res)=>{
     const userData = response.rows[0]
     const templateVars = { user: userData};
     if (userData) {
-      quizProperties(quiz_title,categories,questionValueInterger);
+      quizProperties(currentSession,quiz_title,categories,questionValueInterger);
       return res.redirect("/creating-quiz-page");
     }
     res.render("login-page", templateVars);

@@ -12,4 +12,7 @@ CREATE TABLE users (
 -- SELECT * FROM quizzes 
 --JOIN users IN user_id=user.id
 --WHERE user_id = currentSession
+--SELECT * FROM users
+--JOIN quizzes ON user_id = users.id
+--WHERE users.id= 
 

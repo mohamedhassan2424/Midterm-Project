@@ -172,19 +172,36 @@ app.get("/quizTemplate",(req,res)=>{
  })
 app.post("/creating-quiz-template", (req,res)=>{
   const currentSession = req.session.userId;
-  console.log("REQ BODY PARAMTERS",req.body);
+  const {quiz_title,categories,questionValue}=req.body
+  console.log("QUIZ TITLE",quiz_title)
+  console.log("CATERGORIES",categories)
+  const questionValueInterger= Number(questionValue)
+  console.log("QUESTIONVALUE",Number(questionValue))
+  console.log("ISINTERGERVALUE",Number. isInteger(questionValueInterger))
+  const quizProperties = (quizTitle, catergorie, possibleQuestion) =>{
+    return pool
+    .query(`INSERT INTO quizzes(quiz_title,categories,questionValue)
+    VALUES($1,$2,$3) RETURNING *;`,[quizTitle,catergorie,possibleQuestion])
+    .then((response)=>{
+      console.log("RESPONSE", response.rows[0]);
+    })
+    .catch((error)=>{
+      console.log("Their is an error", error.message)
+      })
+  }
   pool.query(`SELECT * FROM users
   WHERE users.id= $1;`,[currentSession])
   .then((response)=>{
     const userData = response.rows[0]
     const templateVars = { user: userData};
     if (userData) {
+      quizProperties(quiz_title,categories,questionValueInterger);
       return res.redirect("/creating-quiz-page");
     }
     res.render("login-page", templateVars);
   })
   .catch((error)=>{
-    console.log("Their is an error", error.message)
+    console.log("Their is an error", error)
     })
 })
 app.post("/logout", (req, res) => {

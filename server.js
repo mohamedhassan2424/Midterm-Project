@@ -172,6 +172,7 @@ app.get("/quizTemplate",(req,res)=>{
  })
 app.post("/creating-quiz-template", (req,res)=>{
   const currentSession = req.session.userId;
+  console.log("REQ BODY PARAMTERS",req.body);
   pool.query(`SELECT * FROM users
   WHERE users.id= $1;`,[currentSession])
   .then((response)=>{

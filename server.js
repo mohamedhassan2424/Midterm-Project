@@ -1,6 +1,6 @@
 // load .env data into process.env
 require("dotenv").config();
-
+const { Pool } = require('pg');
 // Web server config
 const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
@@ -10,9 +10,13 @@ const bcrypt = require("bcryptjs");
 const { getUserByEmail } = require("./helperFunction");
 const PORT = process.env.PORT || 8080;
 const app = express();
-
 app.set("view engine", "ejs");
-
+const pool = new Pool({
+  user: 'labber',
+  password: 'labber',
+  host: 'localhost',
+  database: 'midterm'
+});
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -81,41 +85,129 @@ app.get("/", (req, res) => {
 
 app.get("/main-page", (req, res) => {
   const currentSession = req.session.userId;
-  const existsingUser = usersDatabase[currentSession];
-  const templateVars = { user: existsingUser };
-  res.render("main-page", templateVars);
+  pool.query(`SELECT * FROM users
+  WHERE users.id= $1;`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows[0]
+    const templateVars = { user: userData};
+    res.render("main-page", templateVars);
+  }).catch((error)=>{
+    console.log("Their is an error", error.message)
+    })
+  //const existsingUser = usersDatabase[currentSession];
+  //const templateVars = { user: existsingUser };
+  //res.render("main-page", templateVars);
 });
 
 app.get("/login", (req, res) => {
   const currentSession = req.session.userId;
-  const existsingUser = usersDatabase[currentSession];
-  const templateVars = { user: existsingUser };
-  if (existsingUser) {
+  //const existsingUser = usersDatabase[currentSession];
+  //const templateVars = { user: existsingUser };
+  pool.query(`SELECT * FROM users
+  WHERE users.id= $1;`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows[0]
+    const templateVars = { user: userData};
+    if (userData) {
+      return res.redirect("/main-page");
+    }
+    res.render("login-page", templateVars);
+  })
+  .catch((error)=>{
+    console.log("Their is an error", error.message)
+    })
+  /*if (existsingUser) {
     return res.redirect("/main-page");
   }
-  res.render("login-page", templateVars);
+  res.render("login-page", templateVars);*/
 });
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
   const currentSession = req.session.userId;
+  /*
   const existsingUser = usersDatabase[currentSession];
   const loggedInUser = getUserByEmail(email, usersDatabase);
-
   const comparingThePassword = bcrypt.compareSync(
     password,
     loggedInUser.password
+  );*/
+pool.query(`SELECT id ,email,password,firstname,lastname FROM users
+WHERE email = $1;`,[email])
+.then((response)=>{
+  const loggedInEmail = response.rows[0]
+  const passwordObj = loggedInEmail.password
+  const comparingThePassword = bcrypt.compareSync(
+    password,
+    passwordObj
   );
-  console.log("comparingThePassword", comparingThePassword);
-  if (!comparingThePassword) {
-    res.send("Invlaid Password, Please Try and re-enter your password again.");
-  }
-  if (comparingThePassword && loggedInUser) {
-    req.session.userId = loggedInUser.id;
-    return res.redirect("/main-page");
-  }
+console.log("ComparingThePassword",comparingThePassword)
+if (!comparingThePassword) {
+  res.send("Invlaid Password, Please Try and re-enter your password again.");
+}
+if (comparingThePassword) {
+  req.session.userId = response.rows[0].id ;
+  return res.redirect("/main-page");
+}
+})
+.catch((error)=>{
+console.log("Their is an error", error.message)
+})
 });
-
+app.get("/quizTemplate",(req,res)=>{
+  const currentSession = req.session.userId;
+  pool.query(`SELECT * FROM users
+  WHERE users.id= $1;`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows[0]
+    const templateVars = { user: userData};
+    if (userData) {
+      return res.render("quizTemplatePage",templateVars);
+    }
+    res.render("login-page", templateVars);
+  })
+  .catch((error)=>{
+    console.log("Their is an error", error.message)
+    })
+ })
+app.post("/creating-quiz-template", (req,res)=>{
+  const currentSession = req.session.userId;
+  const {quiz_title,categories,questionValue}=req.body
+  console.log("QUIZ TITLE",quiz_title)
+  console.log("CATERGORIES",categories)
+  const questionValueInterger= Number(questionValue)
+  console.log("QUESTIONVALUE",Number(questionValue))
+  console.log("ISINTERGERVALUE",Number. isInteger(questionValueInterger))
+  const quizProperties = (userid,quizTitle, catergorie, possibleQuestion) =>{
+    return pool
+    .query(`INSERT INTO quizzes_template (user_idqt,quiz_title,categories,questionValue)
+    VALUES($1,$2,$3,$4) RETURNING *;`,[userid,quizTitle,catergorie,possibleQuestion])
+  }
+  pool.query(`SELECT * FROM users
+  WHERE users.id= $1;`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows[0]
+    if (userData) {
+      quizProperties(currentSession,quiz_title,categories,questionValueInterger)
+      .then((response)=>{
+        console.log("RESPONSE", response.rows[0]);
+        req.session.quizzzesTemplateId = response.rows[0].id
+        console.log("REQSESSION SESSION",req.session)
+        console.log("REQSESSION ID",req.session.userId);
+        return res.redirect("/creating-quiz-page");
+  
+      })
+      .catch((error)=>{
+        console.log("Their is an error", error.message)
+        });
+      }else {
+    res.redirect("/login");
+      }
+  })
+  .catch((error)=>{
+    console.log("Their is an error", error)
+    })
+})
 app.post("/logout", (req, res) => {
   req.session = null;
   res.redirect("/main-page");
@@ -123,31 +215,77 @@ app.post("/logout", (req, res) => {
 
 app.get("/register", (req, res) => {
   const currentSession = req.session.userId;
-  console.log("Current Session", req.session.userId);
-  const existsingUser = usersDatabase[currentSession];
-  const templateVars = { user: existsingUser };
-  console.log("existsingUser", existsingUser);
-  if (existsingUser) {
-    return res.redirect("/main-page");
-  }
+  console.log("WORKING HERE")
+  //console.log("Current Session", req.session.userId);
+  //const existsingUser = usersDatabase[currentSession];
+  //const templateVars = { user: existsingUser };
+  //console.log("existsingUser", existsingUser);
+  pool.query(`SELECT * FROM users
+  WHERE users.id= $1;`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows[0]
+    const templateVars = { user: userData};
+    if (userData) {
+      return res.redirect("/main-page");
+    }
   res.render("registration-page", templateVars);
+  }).catch((error)=>{
+    console.log("Their is an error", error.message)
+    })
 });
 
 app.get("/creating-quiz-page", (req, res) => {
   const currentSession = req.session.userId;
-  const existsingUser = usersDatabase[currentSession];
-  const templateVars = { user: existsingUser };
+  const quizzesTemplateId =req.session.quizzzesTemplateId
+  //const existsingUser = usersDatabase[currentSession];
+  //const templateVars = { user: existsingUser };
 
-  res.render("creating-quiz-page", templateVars);
+  pool.query(`SELECT * FROM users
+  JOIN quizzes_template ON user_idqt=users.id
+  WHERE users.id =$1 AND quizzes_template.id=$2;`,[currentSession,quizzesTemplateId])
+  .then((response)=>{
+    const userData = response.rows[0]
+    const value = userData.questionvalue
+    console.log("VALUE",value)
+    const templateVars = { user: userData};
+    res.render("creating-quiz-page", templateVars);
+  }).catch((error)=>{
+    console.log("Their is an error", error.message)
+    })
+    
+  //res.render("creating-quiz-page", templateVars);
 });
 
 app.post("/creating-quiz-page", (req, res) => {
   const currentSession = req.session.userId;
-  const existsingUser = usersDatabase[currentSession];
-  const { question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
+  const quizzesTemplateId =req.session.quizzzesTemplateId
+  console.log("REQ OBJECT",req.session)
+  console.log("CurrentSession",currentSession)
+  //const existsingUser = usersDatabase[currentSession];
+  const {quiz_title, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
     req.body;
-  console.log("QUESITONNNN", question);
-  const generatedId = Math.random().toString(36).substring(2, 8);
+  //console.log("QUESITONNNN", question);
+  const insertingQuestionProperties = (userid,quizTemplateId ,question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer )=>{
+    return pool
+    .query(`INSERT INTO quizzes (user_id, quizzes_template_id,question, first_answer, second_answer, third_answer, fourth_answer )
+    VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *;`,[userid,quizTemplateId, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer ])
+    .then((response)=>{
+      
+    console.log("DATA VALUES",response.rows[0])
+    const dataProperties = response.rows[0]
+    pool.query(`SELECT * FROM users
+    WHERE users.id= $1;`,[currentSession])
+    .then((response)=>{
+    const userData = response.rows[0]
+    //const templateVars = { user: userData,questionObject:dataProperties};
+    res.redirect("/quiz-created");
+  })
+    }).catch((error)=>{
+    console.log("THEIR IS AN ERROR",error.message)
+    })
+    }
+    insertingQuestionProperties(currentSession,quizzesTemplateId,question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer)
+  /*const generatedId = Math.random().toString(36).substring(2, 8);
   questionText[generatedId] = {
     id: generatedId,
     firstQuestion: question,
@@ -155,22 +293,36 @@ app.post("/creating-quiz-page", (req, res) => {
     answerTwo: secondAnswer,
     answerThree: thirdAnswer,
     answerFour: fourthAnswer,
-  };
-  console.log("QuestionText", questionText);
-  const templateVars = {
+  };*/
+  //console.log("QuestionText", questionText);
+  /*const templateVars = {
     user: existsingUser,
     questionObject: questionText[generatedId],
   };
-  res.render("quiz-created", templateVars);
+  res.render("quiz-created", templateVars);*/
 });
 
-/*app.get("/quizCreatedSuccesfully", (req,res)=>{
+app.get("/quiz-created", (req,res)=>{
   const currentSession = req.session.userId
-  const existsingUser=usersDatabase[currentSession]
-  const generateValue =questionT
-  const templateVars ={user: existsingUser,questionObject:questionText[generatedId]}
-  res.render("quizCreatedSuccesfully",templateVars)
-})*/
+  console.log("CURRENT SESSION", currentSession)
+  pool.query(`SELECT * FROM quizzes
+  JOIN users ON user_id=users.id
+  WHERE user_id = $1;`,[currentSession])
+  .then((response)=>{
+  const usersQuiz= response.rows;
+  console.log("DATA PROPERTIES",usersQuiz )
+  pool.query(`SELECT * FROM users
+  WHERE users.id = $1;`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows[0]
+    const templateVars = { user: userData,usersQuiz}
+    res.render("quiz-created",templateVars)
+  })
+  })
+  .catch((error)=>{
+    console.log("THEIR IS AN ERROR",error.message)
+    })
+});
 
 app.post("/register", (req, res) => {
   const generatedId = Math.random().toString(36).substring(2, 8);
@@ -208,13 +360,25 @@ app.post("/register", (req, res) => {
     firstName: firstName,
     lastName: lastName,
   };
-  req.session.userId = generatedId;
-  console.log(usersDatabase);
-  console.log("REQ-session-Id", req.session.userId);
+  
+const insertingProperties = ( firstName, lastName,email, password)=>{
+return pool
+.query(`INSERT INTO users (firstname,lastname,email,password)
+VALUES ($1,$2,$3,$4) RETURNING *;`,[firstName, lastName,email, password])
+.then((data)=>{
+console.log("DATA VALUES",data.rows)
+req.session.userId = data.rows[0].id
+
+res.redirect("/main-page"); 
+}).catch((error)=>{
+console.log("THEIR IS AN ERROR",error.message)
+})
+}
+insertingProperties(firstName, lastName,email, newhashedPassword);
   //console.log(email)
   //console.log(password)
   //console.log(newhashedPassword)
-  res.redirect("/main-page");
+  
 });
 
 app.listen(PORT, () => {

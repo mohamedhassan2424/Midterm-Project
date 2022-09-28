@@ -20,12 +20,18 @@
       </button>
       <button><a class="navbar-brand" href="/login">Log In</a></button>
       <%  } else { %>
+        <button>
+          <a class="navbar-brand" href="/main-page">Home</a>
+        </button>
+        <button>
+          <a class="navbar-brand" href="/quizTemplate">Create Quiz Template</a>
+        </button>
       <button>
         <a class="navbar-brand" href="/creating-quiz-page">Create Quiz</a>
       </button>
       <button><a class="navbar-brand" href="/creating-quiz-page">Edit Quiz</a></button>
       <button><a class="navbar-brand" href="/quiz-created">Show Quiz</a></button>
-      <span>Welcome: <%= user.firstName %></span>
+      <span>Welcome: <%= user.firstname %></span>
       <span>Email: <%= user.email %></span>
       <form method="POST" action="/logout">
         <input class="navbar-brand" type="submit" value="Logout" />

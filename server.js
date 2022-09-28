@@ -212,9 +212,7 @@ app.post("/logout", (req, res) => {
   req.session = null;
   res.redirect("/main-page");
 });
-app.get("/answerTab", (req,res)=>{
-  
-})
+
 app.get("/register", (req, res) => {
   const currentSession = req.session.userId;
   console.log("WORKING HERE")
@@ -264,8 +262,14 @@ app.post("/creating-quiz-page", (req, res) => {
   console.log("REQ OBJECT",req.session)
   console.log("CurrentSession",currentSession)
   //const existsingUser = usersDatabase[currentSession];
-  const {quiz_title, question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
+  const {question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
     req.body;
+    console.log("REQ BODY",req.body)
+    //console.log("QUESTION",question)
+    //console.log("firstanswer",firstAnswer)
+    //console.log("secoudnAnswer",secondAnswer)
+    //console.log("thirdAnswer",thirdAnswer)
+    //console.log("fourthAnswer",fourthAnswer)
   //console.log("QUESITONNNN", question);
   const insertingQuestionProperties = (userid,quizTemplateId ,question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer )=>{
     return pool
@@ -278,15 +282,21 @@ app.post("/creating-quiz-page", (req, res) => {
     pool.query(`SELECT * FROM users
     WHERE users.id= $1;`,[currentSession])
     .then((response)=>{
-    const userData = response.rows[0]
+   // const userData = response.rows[0]
     //const templateVars = { user: userData,questionObject:dataProperties};
-    res.redirect("/quiz-created");
+    //res.redirect("/quiz-created");
   })
     }).catch((error)=>{
     console.log("THEIR IS AN ERROR",error.message)
     })
     }
-    insertingQuestionProperties(currentSession,quizzesTemplateId,question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer)
+    question.forEach((eachQuestion, index) => { 
+    insertingQuestionProperties(currentSession,quizzesTemplateId,eachQuestion, firstAnswer[index], secondAnswer[index], thirdAnswer[index], fourthAnswer[index]);
+    })
+    res.redirect("/quiz-created")
+  
+
+   
   /*const generatedId = Math.random().toString(36).substring(2, 8);
   questionText[generatedId] = {
     id: generatedId,
@@ -312,11 +322,13 @@ app.get("/quiz-created", (req,res)=>{
   WHERE user_id = $1;`,[currentSession])
   .then((response)=>{
   const usersQuiz= response.rows;
+  console.log("USERQUIZ",usersQuiz)
   console.log("DATA PROPERTIES",usersQuiz )
   pool.query(`SELECT * FROM users
   WHERE users.id = $1;`,[currentSession])
   .then((response)=>{
     const userData = response.rows[0]
+    console.log("USERDATA",)
     const templateVars = { user: userData,usersQuiz}
     res.render("quiz-created",templateVars)
   })

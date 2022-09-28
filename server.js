@@ -212,7 +212,9 @@ app.post("/logout", (req, res) => {
   req.session = null;
   res.redirect("/main-page");
 });
-
+app.get("/answerTab", (req,res)=>{
+  
+})
 app.get("/register", (req, res) => {
   const currentSession = req.session.userId;
   console.log("WORKING HERE")

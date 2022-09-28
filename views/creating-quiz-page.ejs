@@ -20,6 +20,8 @@
 
       </select></div>-->
       <ol>
+        <h4>QUIZ TITLE: <%= user.quiz_title %></h4>
+        <h4>QUIZ CATEGORIES: <%= user.categories.toUpperCase() %></h4>
       <% for (let i=1; i <= user.questionvalue;i++) { %>
     <label>Write Question here?????? </label>
    <div> <textarea placeholder="Write Question" name="question"></textarea></div>

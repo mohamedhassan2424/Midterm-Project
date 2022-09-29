@@ -147,10 +147,17 @@ app.get("/answerQuiz", (req,res)=>{
   WHERE users.id =$1;`,[currentSession])
   .then((response)=>{
     const userData = response.rows
-    console.log("USER DATA",userData)
-    console.log("USER QUIZ TITLE",userData.quiz_title)
-    const templateVars = { user: userData};
+    //console.log("USER DATA",userData)
+    //console.log("USER QUIZ TITLE",userData.quiz_title)
+    pool.query(`SELECT * FROM users
+    WHERE users.id= $1;`,[currentSession])
+    .then((response)=>{
+    const userDataValue= response.rows[0]
+    const templateVars = {user: userDataValue, users: userData};
     res.render("answerQuizRender", templateVars);
+    })
+    
+    
   }).catch((error)=>{
     console.log("Their is an error", error.message)
     })

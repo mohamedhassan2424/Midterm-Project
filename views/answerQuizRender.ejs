@@ -1,7 +1,7 @@
 <%- include('header') %>
 <body>
     
-    <% for(let eachObject of user) { %>
+    <% for(let eachObject of users) { %>
         <form method="POST" action="/answerQuizz"></form>
         <h4><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></h4>
         <h4><u>QUIZ CATEGORIES: <%=eachObject.categories.toUpperCase() %></u></h4>

@@ -12,15 +12,19 @@
     <section>
         <h1 class="create">Quiz Generator</h1>
         <div class="info">
-        <div action="/register" method ="POST" autocomplete="off">
+        <form action="/register" method ="POST" autocomplete="off">
+          <div class="first-container">
+            <label class="first-name">First Name</label>
+            <input type="name" name="first-name" placeholder="First Name" style="margin:10px;">
+          </div>
+          <div class="last-container">
+            <label class="last-name">Last Name</label>
+          <input type="name" name="last-name" placeholder="Last Name" style="margin:10px;">
+        </div>
       <div class="email-container">
         <label class="email">Email Address</label>
         <input class="emailbox" type="email" name="email" placeholder="Enter Email" style="margin:10px;">
       </div>
-      <div class="username-container">
-        <label class="username">Enter Username</label>
-      <input type="username" name="Username" placeholder="Enter Username" style="margin:10px;">
-    </div>
       <div class="password-container">
         <label class="password">Password</label>
         <input type="password" name="password" placeholder="Password" style="margin:10px;">

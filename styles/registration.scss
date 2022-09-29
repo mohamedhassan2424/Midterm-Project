@@ -15,14 +15,14 @@
 
 }
 
-.username, .email, .password {
-  // margin: 15px;
-  justify-content: center;
-  border: 10px;
-  padding: 15px;
-}
+// .username, .email, .password {
+//   // margin: 15px;
+//   justify-content: center;
+//   border: 10px;
+//   padding: 15px;
+// }
 
-.email, .username, .password {
+.email, .first-name, .last-name, .password {
   font-family: 'Roboto Mono', monospace;
   border: 2px solid #9CCADE ;
   border-radius: 10px 10px;
@@ -30,6 +30,17 @@
   margin: 3px;
   background: #9CCADE;
   background-clip: padding-box;
+  justify-content: center;
+  border: 10px;
+  padding: 15px;
+}
+
+.first-container {
+  display: flex;
+}
+
+.last-container {
+  display: flex;
 }
 
 .email-container {

@@ -3,6 +3,8 @@
 // }
 
 .create {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: lighter;
   display: flex;
   color: rgb(0, 0, 0);
   justify-content: center;
@@ -53,4 +55,10 @@
 
 .password-container {
   display: flex;
+}
+
+.register {
+  display: flex;
+  margin-right: 50%;
+  color: red;
 }

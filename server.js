@@ -85,16 +85,29 @@ app.get("/", (req, res) => {
 
 app.get("/main-page", (req, res) => {
   const currentSession = req.session.userId;
+  if(!currentSession){
+    res.redirect("/register")
+  }
+  console.log("currentSession",currentSession)
   const quizzesTemplateId =req.session.quizzzesTemplateId
+
   pool.query(`SELECT * FROM users
   JOIN quizzes_template ON user_idqt=users.id
   WHERE users.id =$1;`,[currentSession])
   .then((response)=>{
-    const userData = response.rows
-    console.log("USER DATA",userData)
-    console.log("USER QUIZ TITLE",userData.quiz_title)
-    const templateVars = { user: userData};
-    res.render("main-page", templateVars);
+    const userDataFiltered = response.rows
+    pool.query(`SELECT * FROM users
+    WHERE users.id =$1;`,[currentSession])
+    .then((response)=>{
+      const userData = response.rows[0]
+      console.log("USERDATA",userData)
+      console.log("USERDATAFILTERED",userDataFiltered)
+      const templateVars = { user: userData,users:userDataFiltered};
+      res.render("main-page", templateVars);
+    })
+    //console.log("USER DATA",userData)
+    //console.log("USER QUIZ TITLE",userData.quiz_title)
+    
   }).catch((error)=>{
     console.log("Their is an error", error.message)
     })
@@ -134,13 +147,23 @@ app.get("/answerQuiz", (req,res)=>{
   WHERE users.id =$1;`,[currentSession])
   .then((response)=>{
     const userData = response.rows
-    console.log("USER DATA",userData)
-    console.log("USER QUIZ TITLE",userData.quiz_title)
-    const templateVars = { user: userData};
+    //console.log("USER DATA",userData)
+    //console.log("USER QUIZ TITLE",userData.quiz_title)
+    pool.query(`SELECT * FROM users
+    WHERE users.id= $1;`,[currentSession])
+    .then((response)=>{
+    const userDataValue= response.rows[0]
+    const templateVars = {user: userDataValue, users: userData};
     res.render("answerQuizRender", templateVars);
+    })
+    
+    
   }).catch((error)=>{
     console.log("Their is an error", error.message)
     })
+});
+app.post("/answerQuizz",(req,res)=>{
+  res.send("ALL IS GOOD")
 })
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
@@ -176,6 +199,7 @@ console.log("Their is an error", error.message)
 });
 app.get("/quizTemplate",(req,res)=>{
   const currentSession = req.session.userId;
+  console.log("ALL IS GOOD HERE")
   pool.query(`SELECT * FROM users
   WHERE users.id= $1;`,[currentSession])
   .then((response)=>{
@@ -258,6 +282,9 @@ app.get("/register", (req, res) => {
 app.get("/creating-quiz-page", (req, res) => {
   const currentSession = req.session.userId;
   const quizzesTemplateId =req.session.quizzzesTemplateId
+  if(!quizzesTemplateId){
+    res.redirect("/quizTemplate")
+  }
   //const existsingUser = usersDatabase[currentSession];
   //const templateVars = { user: existsingUser };
 
@@ -266,10 +293,9 @@ app.get("/creating-quiz-page", (req, res) => {
   WHERE users.id =$1 AND quizzes_template.id=$2;`,[currentSession,quizzesTemplateId])
   .then((response)=>{
     const userData = response.rows[0]
-    console.log("number of rows:", response.rows.length)
-    // const value = userData ? userData.questionValue : "";
-
-    const templateVars = { user: userData ? userData : null };
+    const value = userData.questionvalue
+    console.log("VALUE",value)
+    const templateVars = { user: userData};
     res.render("creating-quiz-page", templateVars);
   }).catch((error)=>{
     console.log("Their is an error", error.message)
@@ -312,14 +338,18 @@ app.post("/creating-quiz-page", (req, res) => {
     console.log("THEIR IS AN ERROR",error.message)
     })
     }
-    question.forEach((eachQuestion, index) => {
+    console.log("ARRAY IS ARRAY", Array.isArray(question))
+    if(!Array.isArray(question)){
+    insertingQuestionProperties(currentSession,quizzesTemplateId,question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer);
+    res.redirect("/quiz-created")  
+  }
+    else{
+    question.forEach((eachQuestion, index) => { 
     insertingQuestionProperties(currentSession,quizzesTemplateId,eachQuestion, firstAnswer[index], secondAnswer[index], thirdAnswer[index], fourthAnswer[index]);
     })
     res.redirect("/quiz-created")
-
-
-
-  /*const generatedId = Math.random().toString(36).substring(2, 8);
+  }
+   /*const generatedId = Math.random().toString(36).substring(2, 8);
   questionText[generatedId] = {
     id: generatedId,
     firstQuestion: question,
@@ -337,32 +367,38 @@ app.post("/creating-quiz-page", (req, res) => {
 });
 
 app.get("/quiz-created", (req,res)=>{
-  const currentSession = req.session.userId
-  console.log("CURRENT SESSION", currentSession)
-  pool.query(`SELECT * FROM quizzes
-  JOIN users ON user_id=users.id
-  WHERE user_id = $1;`,[currentSession])
-  .then((response)=>{
-  const usersQuiz= response.rows;
-  console.log("USERQUIZ",usersQuiz)
-  console.log("DATA PROPERTIES",usersQuiz )
+  const currentSession = req.session.userId;
+  const quizzesTemplateId =req.session.quizzzesTemplateId
   pool.query(`SELECT * FROM users
-  WHERE users.id = $1;`,[currentSession])
+  JOIN quizzes_template ON user_idqt=users.id
+   JOIN quizzes ON user_id=users.id
+  WHERE users.id =$1;`,[currentSession])
   .then((response)=>{
-    const userData = response.rows[0]
-    console.log("USERDATA",)
-    const templateVars = { user: userData,usersQuiz}
-    res.render("quiz-created",templateVars)
-  })
-  })
-  .catch((error)=>{
-    console.log("THEIR IS AN ERROR",error.message)
+    const userData = response.rows
+    pool.query(`SELECT * FROM users
+    WHERE users.id= $1;`,[currentSession])
+    .then((response)=>{
+     const userDataValue = response.rows[0]
+    console.log("USER DATA",userData)
+    console.log("USER QUIZ TITLE",userData.quiz_title)
+    const templateVars = { user: userDataValue,users: userData};
+    res.render("quiz-created", templateVars);
+    });
+      
+    //
+    
+  }).catch((error)=>{
+    console.log("Their is an error", error.message)
     })
 });
 
 app.post("/register", (req, res) => {
   const generatedId = Math.random().toString(36).substring(2, 8);
   const { email, password, firstName, lastName } = req.body;
+  console.log("EMAIL", email)
+  console.log("PASSWORD", password)
+  console.log("FIRSTNAME ", firstName)
+  console.log("LASTNAME", lastName)
   const newhashedPassword = bcrypt.hashSync(password, 10);
   if (email.length === 0) {
     return res.send(

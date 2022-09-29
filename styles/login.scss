@@ -1,10 +1,69 @@
-div {
-  display: block;
-  justify-content: space-between;
-  border: 2px solid #484848;
-  padding: 20px;
+.app-name {
+  display: flex;
+  color: rgb(0, 0, 0);
+  justify-content: center;
+  font-family: 'Roboto Mono', monospace;
 }
 
-.email, .password {
+.main-container {
+  border: 2px solid white;
+  padding: 35px 35px 35px 180px;
+  justify-content: center;
+}
+
+.email-account, .password-box {
+  font-family: 'Roboto Mono', monospace;
+  border: 2px solid #9CCADE ;
+  border-radius: 10px 10px;
+  display: flex;
+  margin: 3px;
+  background: #9CCADE;
+  background-clip: padding-box;
+  justify-content: center;
+  border: 10px;
+  padding: 15px;
+  text-align: left;
+  padding: 20px;
+  display: inline-block;
+  min-width: 150px;
+}
+
+.email-address {
+  border: 1px solid;
+  border-radius: 5px 5px;
+  display: flex;
   margin: 20px;
+  padding: 10px 20px 10px 20px;
+  min-width: 200px;
+}
+
+.password-input {
+  border: 1px solid;
+  border-radius: 5px 5px;
+  display: flex;
+  margin: 20px;
+  padding: 10px 20px 10px 20px;
+  min-width: 200px;
+}
+
+.login-container {
+  display: flex;
+
+}
+
+.password-container {
+  display: flex;
+}
+
+.sign-in {
+  font-family: 'Roboto Mono', monospace;
+  border-radius: 5px 5px;
+  margin: 3px;
+  background: #9CCADE;
+  background-clip: padding-box;
+  border: 50px;
+  padding: 10px 30px 10px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

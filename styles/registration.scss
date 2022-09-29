@@ -65,3 +65,17 @@
   justify-content: end;
   margin-top: 20px;;
 }
+
+.button {
+  background: #9CCADE;
+  font-family: 'Roboto Mono', monospace;
+  border: 2px solid #9CCADE ;
+  border-radius: 10px 10px;
+   color: black;
+   padding: 15px 32px;
+   text-align: center;
+   text-decoration: none;
+   display: flex;
+   justify-content: center;
+   font-size: 16px;
+ }

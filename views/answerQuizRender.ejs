@@ -1,8 +1,8 @@
 <%- include('header') %>
 <body>
-    
-    <% for(let eachObject of users) { %>
-        <!--
+  <p>&nbsp;</p>
+  <% for(let eachObject of users) { %>
+  <!--
         <form method="POST" action="/answerQuizz"></form>
                 <div><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></div>
                 <div class="py-2 h5"><b><u><p><%=eachObject.quiz_title %>??</u></b></div>
@@ -22,21 +22,43 @@
                     </label><br>
                     
             <INPUT TYPE="SUBMIT" VALUE="Submit Answer">
-           
-            </form>
-             -->
-             <u>QUIZ TITLE: <%=eachObject.quiz_title %></u><br>
-            <div class="py-2 h5"><b><u><p><%=eachObject.quiz_title %>??</u></b></div>
-                <ul>
-                    <label>A) <%=eachObject.first_answer %></label><br>
-                    <label>B) <%=eachObject.second_answer %></label><br>
-                    <label>C) <%=eachObject.third_answer %></label><br>
-                    <label>D) <%=eachObject.fourth_answer %></label><br>
-                </ul>
-                <span class="adjustingHere"></span>
-                <span class="answerSection"> ANSWER IS = (C) 3.14<br></span><br>
-                <button id="clickingButton" onclick= "questionFunction()">CLICK HERE TO CHECK ANSWER</button><br>
-                <scr
-    <%  } %>
+            -->
+
+  <p class="questionTitle"><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></p>
+  <p></p>
+  <p class="questions"><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></p>
+  <p></p>
+  <ul class="possibleAnswers">
+    <label>A) <%=eachObject.first_answer %></label
+    ><br />
+    <label>B) <%=eachObject.second_answer %></label
+    ><br />
+    <label>C) <%=eachObject.third_answer %></label
+    ><br />
+    <label>D) <%=eachObject.fourth_answer %></label
+    ><br />
+  </ul>
+
+  <span class="answerSection">
+    THE ANSWER IS = <%=eachObject.first_answer %> <br />
+  </span>
+ 
+  <button class="clickingButton" >Check Answer</button>
+  
+  <script>
+$(document).ready(function() {
+    $('.answerSection').css('display','none');
+  $('.clickingButton').on('click', function( e ) {
+    console.log("click");
+    console.log(e)
+    $('.answerSection').show();
+}
+)
+      
+
+   
+  </script>
+
+  <% } %>
 </body>
-<html>
+</html>

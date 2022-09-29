@@ -107,7 +107,7 @@ app.get("/main-page", (req, res) => {
     })
     //console.log("USER DATA",userData)
     //console.log("USER QUIZ TITLE",userData.quiz_title)
-    
+
   }).catch((error)=>{
     console.log("Their is an error", error.message)
     })
@@ -156,15 +156,17 @@ app.get("/answerQuiz", (req,res)=>{
     const templateVars = {user: userDataValue, users: userData};
     res.render("answerQuizRender", templateVars);
     })
-    
-    
+
+
   }).catch((error)=>{
     console.log("Their is an error", error.message)
     })
 });
+
 app.post("/answerQuizz",(req,res)=>{
   res.send("ALL IS GOOD")
 })
+
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
   const currentSession = req.session.userId;
@@ -186,7 +188,7 @@ WHERE email = $1;`,[email])
   );
 console.log("ComparingThePassword",comparingThePassword)
 if (!comparingThePassword) {
-  res.send("Invlaid Password, Please Try and re-enter your password again.");
+  res.send("Invalid Password, Please re-enter your password and try again.");
 }
 if (comparingThePassword) {
   req.session.userId = response.rows[0].id ;
@@ -197,6 +199,7 @@ if (comparingThePassword) {
 console.log("Their is an error", error.message)
 })
 });
+
 app.get("/quizTemplate",(req,res)=>{
   const currentSession = req.session.userId;
   console.log("ALL IS GOOD HERE")
@@ -234,10 +237,7 @@ app.post("/creating-quiz-template", (req,res)=>{
     if (userData) {
       quizProperties(currentSession,quiz_title,categories,questionValueInterger)
       .then((response)=>{
-        console.log("RESPONSE", response.rows[0]);
         req.session.quizzzesTemplateId = response.rows[0].id
-        console.log("REQSESSION SESSION",req.session)
-        console.log("REQSESSION ID",req.session.userId);
         return res.redirect("/creating-quiz-page");
 
       })
@@ -252,19 +252,14 @@ app.post("/creating-quiz-template", (req,res)=>{
     console.log("Their is an error", error)
     })
 })
+
 app.post("/logout", (req, res) => {
   req.session = null;
   res.redirect("/main-page");
 });
 
-
 app.get("/register", (req, res) => {
   const currentSession = req.session.userId;
-  console.log("WORKING HERE")
-  //console.log("Current Session", req.session.userId);
-  //const existsingUser = usersDatabase[currentSession];
-  //const templateVars = { user: existsingUser };
-  //console.log("existsingUser", existsingUser);
   pool.query(`SELECT * FROM users
   WHERE users.id= $1;`,[currentSession])
   .then((response)=>{
@@ -295,6 +290,7 @@ app.get("/creating-quiz-page", (req, res) => {
     const userData = response.rows[0]
     const value = userData.questionvalue
     console.log("VALUE",value)
+    console.log("userdata",userData)
     const templateVars = { user: userData};
     res.render("creating-quiz-page", templateVars);
   }).catch((error)=>{
@@ -310,9 +306,9 @@ app.post("/creating-quiz-page", (req, res) => {
   console.log("REQ OBJECT",req.session)
   console.log("CurrentSession",currentSession)
   //const existsingUser = usersDatabase[currentSession];
-  const {question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
-    req.body;
-    console.log("REQ BODY",req.body)
+  //const {question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
+    //req.body;
+    console.log("REQ BODYYYYYY",req.body)
     //console.log("QUESTION",question)
     //console.log("firstanswer",firstAnswer)
     //console.log("secoudnAnswer",secondAnswer)
@@ -341,10 +337,10 @@ app.post("/creating-quiz-page", (req, res) => {
     console.log("ARRAY IS ARRAY", Array.isArray(question))
     if(!Array.isArray(question)){
     insertingQuestionProperties(currentSession,quizzesTemplateId,question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer);
-    res.redirect("/quiz-created")  
+    res.redirect("/quiz-created")
   }
     else{
-    question.forEach((eachQuestion, index) => { 
+    question.forEach((eachQuestion, index) => {
     insertingQuestionProperties(currentSession,quizzesTemplateId,eachQuestion, firstAnswer[index], secondAnswer[index], thirdAnswer[index], fourthAnswer[index]);
     })
     res.redirect("/quiz-created")
@@ -384,9 +380,9 @@ app.get("/quiz-created", (req,res)=>{
     const templateVars = { user: userDataValue,users: userData};
     res.render("quiz-created", templateVars);
     });
-      
+
     //
-    
+
   }).catch((error)=>{
     console.log("Their is an error", error.message)
     })
@@ -402,27 +398,27 @@ app.post("/register", (req, res) => {
   const newhashedPassword = bcrypt.hashSync(password, 10);
   if (email.length === 0) {
     return res.send(
-      "400 Status Code : Please type in an accepatable Email with substantial chracter length to continue with registering."
+      "400 Status Code : Please type in an acceptable email with substantial character length to continue with registering."
     );
   }
   if (password.length === 0) {
     return res.send(
-      "400 Status Code : Please type in an accepatable password with substantial chracter length  continue with registering"
+      "400 Status Code : Please type in an acceptable password with substantial character length to continue with registering"
     );
   }
   if (firstName.length === 0) {
     return res.send(
-      "400 Status Code : Please type in an accepatable value for FIRST Name button with substantial chracter length  continue with registering"
+      "400 Status Code : Please type in an acceptable value for FIRST Name button with substantial character length to continue with registering"
     );
   }
   if (lastName.length === 0) {
     return res.send(
-      "400 Status Code : Please type in an accepatable value for LAST Name button with substantial chracter length continue with registering"
+      "400 Status Code : Please type in an acceptable value for LAST Name button with substantial character length to continue with registering"
     );
   }
   if (getUserByEmail(email, usersDatabase)) {
     return res.send(
-      "Staus Code 400. Email type in already exist in the Database. Please type in a Different database"
+      "Staus Code 400. Email type in already exist in the Database. Please type in a different database"
     );
   }
   usersDatabase[generatedId] = {

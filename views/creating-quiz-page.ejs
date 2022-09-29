@@ -3,62 +3,42 @@
 <body>
 
   <h2>CREATE QUIZ</h2>
-  <label>Write Question here??????</label>
+  <h4>QUIZ TITLE: <%= user.quiz_title %></h4>
+  <h4>QUIZ CATEGORIES: <%= user.categories.toUpperCase() %></h4>
+  
   <form method="POST" action="/creating-quiz-page">
+    <% for (let i=1; i <= user.questionvalue;i++) { %>
+  <label>Write Question here??????</label>
     <div> <textarea placeholder="Write Question" name="question"></textarea></div>
-    <label>Write Answers</label>
+    <label>Correct Answers</label>
+    <div><textarea  style ="background-color:#90EE90" placeholder="Correct Answer" name="firstAnswer"></textarea></div>
+    <label>Possible Other Answers</label>
     <ol>
-      <li><textarea placeholder="Possible Answer" name="firstAnswer"></textarea></li>
+      
+    <div class="container"><input class="add-question" type="button" value="Add additional Answers" ></input></div>
+    </ol>
+  <% } %>
+      <div><input type="submit" value="Create Quiz" ></input></div>
+
+    </form>
+      <!--<li><textarea placeholder="Possible Answer" name="firstAnswer"></textarea></li>
       <li><textarea placeholder="Possible Answer" name="secondAnswer"></textarea></li>
       <li><textarea placeholder="Possible Answer" name="thirdAnswer"></textarea></li>
-      <li><textarea placeholder="Possible Answer" name="fourthAnswer"></textarea></li>
-
-    <h2>CREATE QUIZ</h2>
-
-    <form method="POST" action="/creating-quiz-page">
-        <!--<div> <label>Quiz Title</label></div>
-        <div><textarea placeholder="QUIZ TITLE" name="quiz_title"></textarea></div>
-       <div> <label>Categories</label></div>
-    <div><select name="cars" id="cars">
-        <option value="math" name="math">Math</option>
-        <option value="sports"name="sports">Sports</option>
-        <option value="history" name="history">History</option>
-        <option value="geography" name="geography">Geography</option>
-        <option value="science" name="science">Science</option>
-        <option value="music" name="music">Music</option>
-        <option value="arts"name='arts'>Arts</option>
-        <option value="movie" name="movie">Movie</option>
-        <option value="other" name="other">Other</option>
-
-      </select></div>-->
-      <ol>
-        <% if(user){ %>
-        <h4>QUIZ TITLE: <%= user.quiz_title %></h4>
-        <h4>QUIZ CATEGORIES: <%= user.categories.toUpperCase() %></h4>
-      <% for (let i=1; i <= user.questionValue;i++) { %>
-    <label>Write Question here?????? </label>
-   <div> <textarea placeholder="Write Question" name="question"></textarea></div>
-   <label>Write Answers</label>
-    <ol>
-    <li><textarea  style ="background-color:#90EE90"class="textArea" placeholder="Possible Answer" name="firstAnswer"></textarea></li>
+      <li><textarea placeholder="Possible Answer" name="fourthAnswer"></textarea></li>-->
+    
+      
+    <!--<li><textarea  style ="background-color:#90EE90"class="textArea" placeholder="Possible Answer" name="firstAnswer"></textarea></li>
     <li><textarea style ="background-color:#FFCCCB" class="textArea" placeholder="Possible Answer" name="secondAnswer"></textarea></li>
-    <li><textarea style ="background-color:#FFCCCB" class="textArea" placeholder="Possible Answer" name="thirdAnswer"></textarea></li>
-    <li><textarea style ="background-color:#FFCCCB" class="textArea" placeholder="Possible Answer" name="fourthAnswer"></textarea></li>
-  <div></div>
-  </ol>
-    <% } %>
-    <div><input type="submit" value="Create Quiz" ></input></div>
-
-    <% } %>
-    </ol>
-
+    <div><li><textarea style ="background-color:#FFCCCB" class="textArea" placeholder="Possible Answer" name="thirdAnswer"></textarea></li></div>
+    <div><li><textarea style ="background-color:#FFCCCB" class="textArea" placeholder="Possible Answer" name="fourthAnswer"></textarea></li></div>-->
+    
+<!--
     <div><button><input type="submit" value="Create Quiz" ></input></button></div>
 
     <div><input id="add-question" type="button" value="Add question" ></input></div>
     <div><input type="submit" value="Create Quiz" ></input></div>
-  </form>
-</form>
-
+-->
+  
 </body>
 
 <script type="text/javascript" src="/scripts/app.js"></script>

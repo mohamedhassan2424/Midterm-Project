@@ -295,6 +295,7 @@ app.get("/creating-quiz-page", (req, res) => {
     const userData = response.rows[0]
     const value = userData.questionvalue
     console.log("VALUE",value)
+    console.log("userdata",userData)
     const templateVars = { user: userData};
     res.render("creating-quiz-page", templateVars);
   }).catch((error)=>{
@@ -310,9 +311,9 @@ app.post("/creating-quiz-page", (req, res) => {
   console.log("REQ OBJECT",req.session)
   console.log("CurrentSession",currentSession)
   //const existsingUser = usersDatabase[currentSession];
-  const {question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
-    req.body;
-    console.log("REQ BODY",req.body)
+  //const {question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
+    //req.body;
+    console.log("REQ BODYYYYYY",req.body)
     //console.log("QUESTION",question)
     //console.log("firstanswer",firstAnswer)
     //console.log("secoudnAnswer",secondAnswer)

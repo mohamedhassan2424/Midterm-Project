@@ -86,6 +86,9 @@ app.get("/", (req, res) => {
 app.get("/main-page", (req, res) => {
   const currentSession = req.session.userId;
   const quizzesTemplateId =req.session.quizzzesTemplateId
+  if(!currentSession){
+res.redirect("/register");
+  }
   pool.query(`SELECT * FROM users
   JOIN quizzes_template ON user_idqt=users.id
   WHERE users.id =$1;`,[currentSession])
@@ -93,8 +96,13 @@ app.get("/main-page", (req, res) => {
     const userData = response.rows
     console.log("USER DATA",userData)
     console.log("USER QUIZ TITLE",userData.quiz_title)
-    const templateVars = { user: userData};
+    pool.query(`SELECT * FROM users
+  WHERE users.id= $1;`,[currentSession])
+  .then((response)=>{
+    const userDataValue=response.rows[0]
+    const templateVars = {user: userDataValue, users: userData};
     res.render("main-page", templateVars);
+  });
   }).catch((error)=>{
     console.log("Their is an error", error.message)
     })

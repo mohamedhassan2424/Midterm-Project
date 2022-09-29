@@ -15,6 +15,7 @@
   border: 2px solid white;
   padding: 35px;
   justify-content: center;
+  display: flex;
 }
 
 // .username, .email, .password {
@@ -61,5 +62,6 @@
 .register {
   display: flex;
   margin-right: 50%;
-  color: red;
+  justify-content: end;
+  margin-top: 20px;;
 }

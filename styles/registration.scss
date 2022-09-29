@@ -8,13 +8,13 @@
   display: flex;
   color: rgb(0, 0, 0);
   justify-content: center;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .info {
-  border: 2px solid #484848;
+  border: 2px solid white;
   padding: 35px;
   justify-content: center;
-
 }
 
 // .username, .email, .password {
@@ -36,6 +36,7 @@
   border: 10px;
   padding: 15px;
 }
+
 
 .first-container {
   display: flex;

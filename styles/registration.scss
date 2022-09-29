@@ -1,6 +1,6 @@
-body {
-  background-color: rgb(226, 255, 245);
-}
+// body {
+//   background-color: rgb(226, 255, 245);
+// }
 
 .create {
   display: flex;
@@ -15,8 +15,31 @@ body {
 
 }
 
-.first, .last, .email, .password {
-  margin: 15px;
-  display: flex;
+.username, .email, .password {
+  // margin: 15px;
   justify-content: center;
+  border: 10px;
+  padding: 15px;
+}
+
+.email, .username, .password {
+  font-family: 'Roboto Mono', monospace;
+  border: 2px solid #9CCADE ;
+  border-radius: 10px 10px;
+  display: flex;
+  margin: 3px;
+  background: #9CCADE;
+  background-clip: padding-box;
+}
+
+.email-container {
+  display: flex;
+}
+
+.username-container {
+  display: flex;
+}
+
+.password-container {
+  display: flex;
 }

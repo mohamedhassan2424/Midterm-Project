@@ -1,0 +1,22 @@
+.navbar-brand {
+  display: flex;
+}
+
+.home-page, .register-page, .login-page {
+  font-family: 'Roboto Mono', monospace;
+  font-size: medium;
+  border-radius: 5px 5px;
+  margin: 3px;
+  background: #9CCADE;
+  background-clip: padding-box;
+  border: 10px;
+  padding: 5px 20px 5px 20px;
+}
+
+a:visited {
+  color: black;
+}
+
+a,u {
+  text-decoration: none;
+}

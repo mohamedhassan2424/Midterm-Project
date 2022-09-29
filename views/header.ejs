@@ -8,17 +8,20 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <link rel="stylesheet" href="/styles/header.css" />
   </head>
   <body>
-    <header>
+    <header class="navbar-brand">
       <% if(!user) { %>
-      <button>
-        <a class="navbar-brand" href="/main-page">Home</a>
+      <button class="home-page">
+        <a href="/main-page">Home</a>
       </button>
-      <button>
-        <a class="navbar-brand" href="/register">Register Account</a>
+      <button class="register-page">
+        <a href="/register">Sign Up</a>
       </button>
-      <button><a class="navbar-brand" href="/login">Log In</a></button>
+      <button class="login-page"><a href="/login">Sign In</a></button>
+
+
       <%  } else { %>
       <button>
         <a class="navbar-brand" href="/main-page">Home</a>
@@ -31,7 +34,7 @@
       </button>
       <button><a class="navbar-brand" href="/creating-quiz-page">Edit Quiz</a></button>
       <button><a class="navbar-brand" href="/quiz-created">Show Quiz</a></button>
-      <button><a class="navbar-brand" href="/answerQuiz">Answer Quiz Poll</a></button> 
+      <button><a class="navbar-brand" href="/answerQuiz">Answer Quiz Poll</a></button>
       <span>Welcome: <%= user.firstname %></span>
       <span>Email: <%= user.email %></span>
       <form method="POST" action="/logout">

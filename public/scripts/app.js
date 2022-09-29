@@ -14,4 +14,3 @@ $(function() {
       $(this).closest( 'div.new-text-div' ).remove();
   });
 
-});

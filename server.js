@@ -85,16 +85,29 @@ app.get("/", (req, res) => {
 
 app.get("/main-page", (req, res) => {
   const currentSession = req.session.userId;
+  if(!currentSession){
+    res.redirect("/register")
+  }
+  console.log("currentSession",currentSession)
   const quizzesTemplateId =req.session.quizzzesTemplateId
+
   pool.query(`SELECT * FROM users
   JOIN quizzes_template ON user_idqt=users.id
   WHERE users.id =$1;`,[currentSession])
   .then((response)=>{
-    const userData = response.rows
-    console.log("USER DATA",userData)
-    console.log("USER QUIZ TITLE",userData.quiz_title)
-    const templateVars = { user: userData};
-    res.render("main-page", templateVars);
+    const userDataFiltered = response.rows
+    pool.query(`SELECT * FROM users
+    WHERE users.id =$1;`,[currentSession])
+    .then((response)=>{
+      const userData = response.rows[0]
+      console.log("USERDATA",userData)
+      console.log("USERDATAFILTERED",userDataFiltered)
+      const templateVars = { user: userData,users:userDataFiltered};
+      res.render("main-page", templateVars);
+    })
+    //console.log("USER DATA",userData)
+    //console.log("USER QUIZ TITLE",userData.quiz_title)
+    
   }).catch((error)=>{
     console.log("Their is an error", error.message)
     })
@@ -262,6 +275,9 @@ app.get("/register", (req, res) => {
 app.get("/creating-quiz-page", (req, res) => {
   const currentSession = req.session.userId;
   const quizzesTemplateId =req.session.quizzzesTemplateId
+  if(!quizzesTemplateId){
+    res.redirect("/quizTemplate")
+  }
   //const existsingUser = usersDatabase[currentSession];
   //const templateVars = { user: existsingUser };
 
@@ -315,11 +331,17 @@ app.post("/creating-quiz-page", (req, res) => {
     console.log("THEIR IS AN ERROR",error.message)
     })
     }
+    console.log("ARRAY IS ARRAY", Array.isArray(question))
+    if(!Array.isArray(question)){
+    insertingQuestionProperties(currentSession,quizzesTemplateId,question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer);
+    res.redirect("/quiz-created")  
+  }
+    else{
     question.forEach((eachQuestion, index) => { 
     insertingQuestionProperties(currentSession,quizzesTemplateId,eachQuestion, firstAnswer[index], secondAnswer[index], thirdAnswer[index], fourthAnswer[index]);
     })
     res.redirect("/quiz-created")
-  
+    }
 
    
   /*const generatedId = Math.random().toString(36).substring(2, 8);

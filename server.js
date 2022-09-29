@@ -305,9 +305,8 @@ app.post("/creating-quiz-page", (req, res) => {
   const quizzesTemplateId =req.session.quizzzesTemplateId
   console.log("REQ OBJECT",req.session)
   console.log("CurrentSession",currentSession)
-  //const existsingUser = usersDatabase[currentSession];
-  //const {question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } =
-    //req.body;
+
+  const {question, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer } = req.body;
     console.log("REQ BODYYYYYY",req.body)
     //console.log("QUESTION",question)
     //console.log("firstanswer",firstAnswer)

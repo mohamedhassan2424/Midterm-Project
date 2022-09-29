@@ -1,64 +1,28 @@
 <%- include('header') %>
-<body>
-  <p>&nbsp;</p>
-  <% for(let eachObject of users) { %>
-  <!--
-        <form method="POST" action="/answerQuizz"></form>
-                <div><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></div>
-                <div class="py-2 h5"><b><u><p><%=eachObject.quiz_title %>??</u></b></div>
-                    <div>-----------------------</div>
-                <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
-                <label class="options">
-                        <input type="radio" name="radio"> <%=eachObject.first_answer %>
-                    </label><br>
-               <label class="options">
-                        <input type="radio" name="radio"> <%=eachObject.second_answer %>
-                    </label><br>
-                <label class="options">
-                        <input type="radio" name="radio"> <%=eachObject.third_answer %>
-                    </label><br>
-               <label class="options">
-                        <input type="radio" name="radio"> <%=eachObject.fourth_answer %>
-                    </label><br>
-                    
-            <INPUT TYPE="SUBMIT" VALUE="Submit Answer">
-            -->
 
-  <p class="questionTitle"><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></p>
-  <p></p>
-  <p class="questions"><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></p>
-  <p></p>
-  <ul class="possibleAnswers">
-    <label>A) <%=eachObject.first_answer %></label
-    ><br />
-    <label>B) <%=eachObject.second_answer %></label
-    ><br />
-    <label>C) <%=eachObject.third_answer %></label
-    ><br />
-    <label>D) <%=eachObject.fourth_answer %></label
-    ><br />
-  </ul>
+    <body>
+        <p>&nbsp;</p>
+        <% for(let eachObject of users) { %>
+            <div class="eachObjectData" >
+                <p class="questionTitle"><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></p>
+                <p></p>
+                <p class="questions"><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></p>
+                <p></p>
+                <ul class="possibleAnswers">
+                    <label>A) <%=eachObject.first_answer %></label><br />
+                    <label>B) <%=eachObject.second_answer %></label><br />
+                    <label>C) <%=eachObject.third_answer %></label><br />
+                    <label>D) <%=eachObject.fourth_answer %></label><br />
+                </ul>
 
-  <span class="answerSection">
-    THE ANSWER IS = <%=eachObject.first_answer %> <br />
-  </span>
- 
-  <button class="clickingButton" >Check Answer</button>
-  
-  <script>
-$(document).ready(function() {
-    $('.answerSection').css('display','none');
-  $('.clickingButton').on('click', function( e ) {
-    console.log("click");
-    console.log(e)
-    $('.answerSection').show();
-}
-)
-      
+                <span class="answerSection" data-questionId="<%= eachObject.id %>">
+                    THE ANSWER IS = <%=eachObject.first_answer %> <br />
+                </span>
+            </div>
+            <button class="clickingButton" data-questionId="<%= eachObject.id %>">Check Answer</button>
+            <% } %>
+                <script type="text/javascript" src="/scripts/answer.js"> 
+                </script>
+    </body>
 
-   
-  </script>
-
-  <% } %>
-</body>
-</html>
+    </html>

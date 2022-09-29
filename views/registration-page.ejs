@@ -10,9 +10,10 @@
   </head>
 <body>
     <section>
-        <h1 class="create">Create Account</h1>
+        <h1 class="create">Quiz Generator</h1>
         <div class="info">
         <form action="/register" method ="POST" autocomplete="off">
+<<<<<<< HEAD
       <div class="first">
             <label for ="email">Enter First Name:</label>
         <input type="name" name="firstName" placeholder="Enter first Name">
@@ -20,14 +21,24 @@
         <div class="last">
           <label for ="email">Enter Last Name:</label>
         <input type="name" name="lastName" placeholder="Enter Last Name">
+=======
+          <div class="username-container">
+            <label class="username">Enter First Name:</label>
+          <input type="username" name="firstName" placeholder="Enter First Name:" style="margin:10px;">
+        </div>
+        <div class="username-container">
+          <label class="username">Enter Last Name:</label>
+        <input type="username" name="lastName" placeholder="Enter Last Name:" style="margin:10px;">
+>>>>>>> master
       </div>
-      <div class="email">
-        <label for ="email">Email Address:</label>
-        <input type="email" name="email" placeholder="Enter Email">
+          <div class="email-container">
+        <label class="email">Email Address</label>
+        <input class="emailbox" type="email" name="email" placeholder="Enter Email" style="margin:10px;">
       </div>
-      <div class="password">
-        <label for ="password">Password:</label>
-        <input type="password" name="password" placeholder="Password">
+      
+      <div class="password-container">
+        <label class="password">Password</label>
+        <input type="password" name="password" placeholder="Password" style="margin:10px;">
       </div>
       <div>
         <input type="submit" value="Register" >

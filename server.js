@@ -348,10 +348,8 @@ app.post("/creating-quiz-page", (req, res) => {
     insertingQuestionProperties(currentSession,quizzesTemplateId,eachQuestion, firstAnswer[index], secondAnswer[index], thirdAnswer[index], fourthAnswer[index]);
     })
     res.redirect("/quiz-created")
-    }
-
-   
-  /*const generatedId = Math.random().toString(36).substring(2, 8);
+  }
+   /*const generatedId = Math.random().toString(36).substring(2, 8);
   questionText[generatedId] = {
     id: generatedId,
     firstQuestion: question,

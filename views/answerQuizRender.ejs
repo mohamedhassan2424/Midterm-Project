@@ -1,40 +1,27 @@
 <%- include('header') %>
-<body>
-    
-    <% for(let eachObject of users) { %>
-        <form method="POST" action="/answerQuizz"></form>
-        <h4><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></h4>
-        <h4><u>QUIZ CATEGORIES: <%=eachObject.categories.toUpperCase() %></u></h4>
-        <p><INPUT TYPE="RADIO" VALUE="answerA" NAME="answerA">
-            A. <%=eachObject.first_answer %><BR></p>
-            
-            <p><INPUT TYPE="RADIO" VALUE="answerB" NAME="answerB">
-            B. <%=eachObject.second_answer %><BR></p>
-            
-            <p><INPUT TYPE="RADIO" VALUE="answerC" NAME="answerC">
-            C. <%=eachObject.third_answer%><BR></p>
-            <p><INPUT TYPE="RADIO" VALUE="answerD" NAME="answerD">
-            D. <%=eachObject.fourth_answer%><BR></p>
-            
-            <INPUT TYPE="SUBMIT" VALUE="Submit Answer">
-            </form>
-       
-        <!--<label><h4><%=eachObject.quiz_title %></h4></label>
-        <label><h4><%=eachObject.categories %></h4></label>
-        <label><h4><%=eachObject.question %></h4></label>
-        <INPUT TYPE="RADIO" VALUE="A" NAME="cc">
-            <h4>A.<%=eachObject.first_answer %></h4><BR>
-        
-            <label><h4><%=eachObject.second_answer %></h4></label>
-        <label><h4><%=eachObject.third_answer%></h4></label>
-        <label><h4><%=eachObject.fourth_answer%></h4></label>
-      <h5>1</h5>
-      <h5>2</h5>
-      <h5>3</h5>
-      <h5>4</h5>
-            -->
-        <%  } %>
 
+    <body>
+        <% for(let eachObject of users) { %>
+            <div class="eachObjectData" >
+                <p class="questionTitle"><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></p>
+                <p></p>
+                <p class="questions"><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></p>
+                <p></p>
+                <ul class="possibleAnswers">
+                    <label>A) <%=eachObject.first_answer %></label><br />
+                    <label>B) <%=eachObject.second_answer %></label><br />
+                    <label>C) <%=eachObject.third_answer %></label><br />
+                    <label>D) <%=eachObject.fourth_answer %></label><br />
+                </ul>
 
-</body>
-<html>
+                <span class="answerSection" data-questionId="<%= eachObject.id %>">
+                    THE ANSWER IS = <%=eachObject.first_answer %> <br />
+                </span>
+            </div>
+            <button class="clickingButton" data-questionId="<%= eachObject.id %>">Check Answer</button>
+            <% } %>
+                <script type="text/javascript" src="/scripts/answer.js"> 
+                </script>
+    </body>
+
+    </html>

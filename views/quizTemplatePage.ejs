@@ -1,13 +1,28 @@
 <%- include('header') %>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE-edge">
+  <meta name="viewport" content="width=devide-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="/styles/template.css" />
+  </head>
 <body>
-    <h2>CREATE QUIZ TEMPLATE</h2>
+    <h2 class="title">CREATE QUIZ TEMPLATE</h2>
 
     <form method="POST" action="/creating-quiz-template">
-      <!---->  <div> <label>Quiz Title</label></div>
+      <!---->  <div class="title"> <label>Quiz Title</label></div>
+      <section>
         <div><textarea placeholder="QUIZ TITLE" name="quiz_title"></textarea></div>
-       <div> <label>Categories</label></div>
-    <div><select name="categories" id="categoriesValues">
+      </section>
+       <section>
+        <div> <label>Categories</label>
+        <section>
+          <div class="title"><select name="categories" id="categoriesValues">
+    </section>
+  </div>
+
         <option value="" name="">Math</option>
         <option value="sports"name="sports">Sports</option>
         <option value="history" name="history">History</option>
@@ -17,9 +32,12 @@
         <option value="arts"name='arts'>Arts</option>
         <option value="movie" name="movie">Movie</option>
         <option value="other" name="other">Other</option>
-
-      </select></div>
+      </section>
+      </select>
+      <div>
     <label>How many Question Would you like to make for your Quiz</label>
+  </div>
+<section>
    <div> <select  name="questionValue"id="selectNumber">
     <option value="1" name="1">1</option>
     <option value="2" name="2">2</option>
@@ -28,8 +46,9 @@
     <option value="5" name="5">5</option>
     <option value="6" name="6">6</option>
   </select></div>
+</section>
 
-    <div><input type="submit" value="Submit Template Quiz" ></input></div>
+    <div class="button"><input type="submit" value="Submit Template Quiz" ></input></div>
 
 
 

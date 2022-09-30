@@ -2,7 +2,7 @@
   display: flex;
 }
 
-.home-page, .register-page, .login-page {
+.home-page, .register-page, .login-page, .quiz-template, .create-quiz, .edit-quiz, .show-quiz, .answer-quiz, .log-out {
   font-family: 'Roboto Mono', monospace;
   font-size: medium;
   border-radius: 5px 5px;
@@ -11,6 +11,12 @@
   background-clip: padding-box;
   border: 10px;
   padding: 5px 20px 5px 20px;
+}
+
+.logged-in, .user-email {
+  display: flex;
+  justify-content: end;
+  font-family: "Roboto Mono", monospace;
 }
 
 a:visited {

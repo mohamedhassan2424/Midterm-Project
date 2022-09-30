@@ -5,10 +5,10 @@
   <h2>CREATE QUIZ</h2>
   <h4>QUIZ TITLE: <%= user.quiz_title %></h4>
   <h4>QUIZ CATEGORIES: <%= user.categories.toUpperCase() %></h4>
-  
+
   <form method="POST" action="/creating-quiz-page">
     <% for (let i=1; i <= user.questionvalue;i++) { %>
-  <label>Write Question here??????</label>
+  <label>Write Question here</label>
   <div> <textarea placeholder="Write Question" name="question"></textarea></div>
   <label>Correct Answers</label>
   <ol>
@@ -18,31 +18,31 @@
       <li><textarea  style ="background-color:#FFCCCB"placeholder="Possible Answer" name="thirdAnswer"></textarea></li>
       <li><textarea  style ="background-color:#FFCCCB"placeholder="Possible Answer" name="fourthAnswer"></textarea></li>
     </ol>
-  
+
   <% } %>
       <div><input type="submit" value="Create Quiz" ></input></div>
     </form>
     <!--<div class="container" name="allAnswer"><input class="add-question" type="button" value="Add additional Answers" ></input></div>
-    
+
     -->
       <!--<li><textarea placeholder="Possible Answer" name="firstAnswer"></textarea></li>
       <li><textarea placeholder="Possible Answer" name="secondAnswer"></textarea></li>
       <li><textarea placeholder="Possible Answer" name="thirdAnswer"></textarea></li>
       <li><textarea placeholder="Possible Answer" name="fourthAnswer"></textarea></li>-->
-    
-      
+
+
     <!--<li><textarea  style ="background-color:#90EE90"class="textArea" placeholder="Possible Answer" name="firstAnswer"></textarea></li>
     <li><textarea style ="background-color:#FFCCCB" class="textArea" placeholder="Possible Answer" name="secondAnswer"></textarea></li>
     <div><li><textarea style ="background-color:#FFCCCB" class="textArea" placeholder="Possible Answer" name="thirdAnswer"></textarea></li></div>
     <div><li><textarea style ="background-color:#FFCCCB" class="textArea" placeholder="Possible Answer" name="fourthAnswer"></textarea></li></div>-->
-    
+
 <!--
     <div><button><input type="submit" value="Create Quiz" ></input></button></div>
 
     <div><input id="add-question" type="button" value="Add question" ></input></div>
     <div><input type="submit" value="Create Quiz" ></input></div>
 -->
-  
+
 </body>
 
 <!--<script type="text/javascript" src="/scripts/app.js"></script>-->

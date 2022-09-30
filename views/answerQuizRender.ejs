@@ -3,6 +3,7 @@
     <body>
 
         <% for(let eachObject of users) { %>
+            <% if(eachObject.quiz_title ===userQuiz) { %>
             <div class="eachObjectData" >
                 <p class="questionTitle"><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></p>
                 <p></p>
@@ -20,6 +21,7 @@
                 </span>
             </div>
             <button class="clickingButton" data-questionId="<%= eachObject.id %>">Check Answer</button>
+            <% } %>
             <% } %>
                 <script type="text/javascript" src="/scripts/answer.js"> 
                 </script>

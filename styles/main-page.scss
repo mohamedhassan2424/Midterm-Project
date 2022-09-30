@@ -1,0 +1,56 @@
+
+.navbar-brand {
+  display: flex;
+  font-family: 'Roboto Mono', monospace;
+  font-size: medium;
+  border-radius: 5px 5px;
+  background-clip: padding-box;
+}
+
+.logged-in, .user-email {
+  display: flex;
+  justify-content: end;
+  color: red;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  margin-left: 42%;
+  margin-top: 50px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: medium;
+  border-radius: 5px 5px;
+  background: #9CCADE;
+  background-clip: padding-box;
+  border: 10px;
+  padding: 5px 20px 5px 20px;
+}
+
+
+.welcome {
+  font-family: 'Roboto Mono', monospace;
+  display: flex;
+  justify-content: center;
+  background: #9CCADE;
+  background-clip: padding-box;
+  border: 10px;
+  padding: 5px 20px 5px 20px;
+  border-radius: 5px 5px;
+  margin-right: 20%;
+  margin-left: 20%;
+}
+
+.logged {
+  font-family: 'Roboto Mono', monospace;
+  display: flex;
+  justify-content: center;
+  background: #9CCADE;
+  background-clip: padding-box;
+  border: 10px;
+  padding: 5px 20px 5px 20px;
+  border-radius: 5px 5px;
+  margin-right: 35%;
+  margin-left: 35%;
+}
+

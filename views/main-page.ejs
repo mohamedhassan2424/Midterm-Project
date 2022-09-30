@@ -1,12 +1,24 @@
 <%- include('header') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE-edge">
+  <meta name="viewport" content="width=devide-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="/styles/main-page.css" />
+
+</head>
+
+
 <body>
-    <h1>Welcome to Quiz Creator App</h1>
+    <h1 class="welcome">Welcome to Quiz Creator App</h1>
    <% if(!user) { %>
     <h3>Please log in or register to access the quiz</h3>
   <%  } else { %>
-    <h3>You are logged in!</h3>
-    <button>
-      <a class="navbar-brand" href="/quizTemplate">Click here to create Quiz Template</a>
+    <h3 class="logged">You are logged in!</h3>
+    <button class="button">
+      <a class="navbar-brand" href="/quizTemplate">Create Quiz Template</a>
       <%  } %>
     </button>
     <% for(let eachObject of users) { %>

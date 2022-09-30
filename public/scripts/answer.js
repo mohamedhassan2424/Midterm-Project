@@ -11,7 +11,7 @@ $(document).ready(function () {
     //console.log(userData())
     $('.answerSection').css('display', 'none');
     $('.clickingButton').on('click', function (e) {
-    
+
 
         const dataId =  $(this).attr('data-questionId')
         // $('.answerSection').attr("data-questionId")
@@ -27,8 +27,7 @@ $(document).ready(function () {
         }
         //console.log("click");
         //console.log(e)
-        
-       
+
+
     })
 })
->>>>>>> answerSection

@@ -9,15 +9,11 @@ CREATE TABLE users (
   password VARCHAR(255) NOT NULL
 );
 
--- SELECT * FROM quizzes 
+-- SELECT * FROM quizzes
 --JOIN users IN user_id=user.id
 --WHERE user_id = currentSession
 --SELECT * FROM users
 --JOIN quizzes ON user_id = users.id
---WHERE users.id= 
+--WHERE users.id=
 
-SELECT * FROM users
-JOIN quizzes_template ON user_idqt=users.id
- JOIN quizzes ON user_id=users.id
-  WHERE users.id =3;
 

@@ -9,10 +9,11 @@
 
 <body>
 
-  <h2>CREATE QUIZ</h2>
-  <h4>QUIZ TITLE: <%= user.quiz_title %></h4>
+  <h2 class="title">CREATE QUIZ</h2>
+  <div class="title">
+    <h4>QUIZ TITLE: <%= user.quiz_title %></h4>
   <h4>QUIZ CATEGORIES: <%= user.categories.toUpperCase() %></h4>
-
+</div><br>
   <form method="POST" action="/creating-quiz-page">
     <% for (let i=1; i <= user.questionvalue;i++) { %>
       <div class="mainContainer">

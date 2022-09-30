@@ -16,8 +16,5 @@ CREATE TABLE users (
 --JOIN quizzes ON user_id = users.id
 --WHERE users.id= 
 
-SELECT * FROM users
-JOIN quizzes_template ON user_idqt=users.id
- JOIN quizzes ON user_id=users.id
-  WHERE users.id =3;
+
 

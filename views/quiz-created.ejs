@@ -1,17 +1,27 @@
 <%- include('header') %>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=devide-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/styles/quizzes-created.css" />
+    </head>
 <body>
-    <h2>Quiz created successfully</h2>
+    <h2 class="title">Quiz created successfully</h2>
     <% for(let questionObject of users ) {%>
-        <div><h3><u>QUIZ QUESTION: <%=questionObject.question%></u></h3></div>
-        <div><h3><u>QUIZ CATEGORIES: <%=questionObject.quiz_title%></u></h3></div>
-    <ol>
+        <div><h3 class="title"><u>QUIZ QUESTION: <%=questionObject.question%></u></h3></div>
+        <div><h3 class="title"><u>QUIZ CATEGORIES: <%=questionObject.quiz_title%></u></h3></div>
+        <div class="possibleAnswer">
+        <ol>  
        <li><h4><%=questionObject.first_answer%></h4></li>
        <li><h4><%=questionObject.second_answer%></h4></li>
        <li><h4><%=questionObject.third_answer%></h4></li>
        <li><h4><%=questionObject.fourth_answer%></h4></li>
     </ol>
+</div>
     <% } %>
-    <button><a href="/creating-quiz-page">CREATE ANOTHER QUIZ</a></button>
+    <br><button class="centerButton"><a href="/creating-quiz-page">CREATE ANOTHER QUIZ</a></button>
     <!--Fix the link to creating quiz-->
 </body>
 </html>

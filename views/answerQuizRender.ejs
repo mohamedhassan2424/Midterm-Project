@@ -1,26 +1,34 @@
 <%- include('header') %>
 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=devide-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/styles/answersRender.scss" />
+    </head>
     <body>
-
+<h2 class="title">ANSWER SECTION</h2>
         <% for(let eachObject of users) { %>
             <% if(eachObject.quiz_title ===userQuiz) { %>
-            <div class="eachObjectData" >
-                <p class="questionTitle"><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></p>
+            
+                <p class="questionTitle title"><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></p>
                 <p></p>
-                <p class="questions"><u>QUIZ TITLE: <%=eachObject.quiz_title %></u></p>
+                <p class="questions title"><u>QUIZ QUESTION: <%=eachObject.question %></u></p>
                 <p></p>
-                <ul class="possibleAnswers">
+                <div class="eachObjectData title" >
+                <ul class="possibleAnswers ">
                     <label>A) <%=eachObject.first_answer %></label><br />
                     <label>B) <%=eachObject.second_answer %></label><br />
                     <label>C) <%=eachObject.third_answer %></label><br />
                     <label>D) <%=eachObject.fourth_answer %></label><br />
                 </ul>
-
-                <span class="answerSection" data-questionId="<%= eachObject.id %>">
+            </div>
+  
+                <br><span class="answerSection title " data-questionId="<%= eachObject.id %>">
                     THE ANSWER IS = <%=eachObject.first_answer %> <br />
                 </span>
-            </div>
-            <button class="clickingButton" data-questionId="<%= eachObject.id %>">Check Answer</button>
+            <br><button class="clickingButton" data-questionId="<%= eachObject.id %>">Check Answer</button>
             <% } %>
             <% } %>
                 <script type="text/javascript" src="/scripts/answer.js"> 

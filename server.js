@@ -138,8 +138,36 @@ app.get("/login", (req, res) => {
   }
   res.render("login-page", templateVars);*/
 });
+app.get("/answerQuiz/:id", (req, res) => {
+  const inputedId=req.params.id
+  console.log("REQPARMS", req.params)
+  console.log("INPUTED ID",inputedId)
+  const currentSession = req.session.userId;
+  const quizzesTemplateId =req.session.quizzzesTemplateId
+  pool.query(`SELECT * FROM users
+  JOIN quizzes_template ON user_idqt=users.id
+   JOIN quizzes ON user_id=users.id
+  WHERE users.id =$1`,[currentSession])
+  .then((response)=>{
+    const userData = response.rows
+    console.log("userData",userData)
+    //console.log("USER DATA",userData)
+    //console.log("USER QUIZ TITLE",userData.quiz_title)
+    pool.query(`SELECT * FROM users
+    WHERE users.id= $1;`,[currentSession])
+    .then((response)=>{
+    const userDataValue= response.rows[0]
+    const templateVars = {user: userDataValue, users: userData,userQuiz:inputedId};
+    res.render("answerQuizRender", templateVars);
+    })
+  }).catch((error)=>{
+    console.log("Their is an error", error.message)
+    })
+})
+
 app.get("/answerQuiz", (req,res)=>{
   const currentSession = req.session.userId;
+  console.log("currentSession",currentSession)
   const quizzesTemplateId =req.session.quizzzesTemplateId
   pool.query(`SELECT * FROM users
   JOIN quizzes_template ON user_idqt=users.id
@@ -147,6 +175,7 @@ app.get("/answerQuiz", (req,res)=>{
   WHERE users.id =$1;`,[currentSession])
   .then((response)=>{
     const userData = response.rows
+    console.log("userData",userData)
     //console.log("USER DATA",userData)
     //console.log("USER QUIZ TITLE",userData.quiz_title)
     pool.query(`SELECT * FROM users

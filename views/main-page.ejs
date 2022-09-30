@@ -10,7 +10,7 @@
       <%  } %>
     </button>
     <% for(let eachObject of users) { %>
-      <label><h4><%=eachObject.quiz_title %></h4></label>
+      <br><label><button><a href="/answerQuiz/<%=eachObject.quiz_title %>" class="navbar-brand" ><%=eachObject.quiz_title %></a></button></label><br>
     <%  } %>
 </body>
 </html>

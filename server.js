@@ -163,7 +163,6 @@ app.get("/answerQuiz/:id", (req, res) => {
   }).catch((error)=>{
     console.log("Their is an error", error.message)
     })
-
 })
 
 app.get("/answerQuiz", (req,res)=>{

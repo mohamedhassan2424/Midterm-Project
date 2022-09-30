@@ -21,9 +21,9 @@
     </button>
     <u><h3 class="logged">QUIZZES CREATED</h3></u>
     <% for(let eachObject of users) { %>
-      <ul>
-      <li><button class="button" ><a href="/answerQuiz/<%=eachObject.quiz_title %>" class="navbar-brand" ><%=eachObject.quiz_title %></a></button></li>
-    </ul>
+
+      <button class="button" ><a href="/answerQuiz/<%=eachObject.quiz_title %>" class="navbar-brand" ><%=eachObject.quiz_title %></a></button></li>
+
       <%  } %>
 </body>
 </html>
